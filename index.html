@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mappa Concettuale — Fisiologia</title>
+<style>
+:root {
+  --verde:#27ae60;--verde-light:#d5f5e3;--verde-dark:#1e8449;
+  --blu:#2980b9;--blu-light:#d6eaf8;--blu-dark:#1a5276;
+  --viola:#8e44ad;--viola-light:#e8daef;--viola-dark:#6c3483;
+  --arancione:#d35400;--arancione-light:#fde8d8;--arancione-dark:#a04000;
+  --rosso:#c0392b;--rosso-light:#fadbd8;--rosso-dark:#922b21;
+  --panel-w:400px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#f0f2f5;color:#2c3e50;overflow-x:hidden;}
+.tabs{display:flex;background:#1a252f;padding:0 16px;gap:2px;overflow-x:auto;position:sticky;top:0;z-index:50;}
+.tab-btn{padding:13px 20px;color:#7f8c8d;border:none;background:none;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;border-bottom:3px solid transparent;transition:all .2s;letter-spacing:.3px;}
+.tab-btn:hover{color:#ecf0f1;}
+.tab-btn.active{color:#fff;border-bottom-color:#3498db;}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.canvas-wrap{position:relative;overflow:auto;background:#dfe6e9;padding:20px;min-height:600px;}
+#canvas-global{position:relative;width:1180px;height:800px;margin:0 auto;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.12);}
+svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:visible;}
+.node{position:absolute;border-radius:9px;padding:9px 12px;font-size:11.5px;font-weight:700;text-align:center;cursor:pointer;z-index:2;border:2.5px solid transparent;transition:transform .15s,box-shadow .15s,opacity .2s;line-height:1.35;min-width:118px;max-width:142px;box-shadow:0 2px 8px rgba(0,0,0,.13);user-select:none;}
+.node:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(0,0,0,.22);z-index:10;}
+.node.selected{transform:scale(1.1);z-index:10;box-shadow:0 6px 24px rgba(0,0,0,.3)!important;outline:3px solid #2c3e50;outline-offset:2px;}
+.node.verde{background:var(--verde-light);border-color:var(--verde);color:var(--verde-dark);}
+.node.blu{background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark);}
+.node.viola{background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark);}
+.node.arancione{background:var(--arancione-light);border-color:var(--arancione);color:var(--arancione-dark);}
+.node.rosso{background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark);}
+.node.dimmed{opacity:.18;}
+.panel-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.12);z-index:90;}
+.panel-overlay.open{display:block;}
+.side-panel{position:fixed;right:0;top:0;bottom:0;width:var(--panel-w);background:#fff;z-index:100;overflow-y:auto;box-shadow:-4px 0 24px rgba(0,0,0,.18);transform:translateX(100%);transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;}
+.side-panel.open{transform:translateX(0);}
+.panel-header{padding:18px 20px 14px;border-bottom:1px solid #e8ecef;display:flex;align-items:flex-start;gap:12px;position:sticky;top:0;background:#fff;z-index:1;}
+.panel-header-color{width:6px;border-radius:3px;flex-shrink:0;align-self:stretch;min-height:30px;}
+.panel-title{font-size:16px;font-weight:700;color:#1a252f;flex:1;line-height:1.3;}
+.panel-close{border:none;background:none;cursor:pointer;font-size:24px;color:#7f8c8d;padding:0 4px;line-height:1;flex-shrink:0;margin-top:-2px;}
+.panel-close:hover{color:#2c3e50;}
+.panel-body{padding:16px 20px 28px;flex:1;}
+.panel-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#95a5a6;margin-bottom:8px;margin-top:20px;}
+.panel-label:first-child{margin-top:0;}
+.panel-count{font-size:11px;color:#aab7b8;margin-bottom:10px;}
+.pk-list{list-style:none;}
+.pk-list li{padding:8px 0 8px 14px;font-size:12.5px;line-height:1.55;color:#2c3e50;border-left:3px solid #e8ecef;margin-bottom:5px;transition:border-color .15s;}
+.pk-list li:hover{border-left-color:#3498db;background:#f8fafc;border-radius:0 4px 4px 0;}
+.sub-list{display:flex;flex-wrap:wrap;gap:6px;}
+.sub-chip{background:#f0f2f5;border-radius:20px;padding:4px 10px;font-size:11px;color:#5d6d7e;border:1px solid #d5d8dc;}
+.legend{display:flex;gap:18px;padding:10px 20px;flex-wrap:wrap;font-size:12px;background:#fff;border-bottom:1px solid #d5d8dc;align-items:center;}
+.leg-item{display:flex;align-items:center;gap:6px;}
+.leg-dot{width:12px;height:12px;border-radius:50%;flex-shrink:0;}
+.hint{margin-left:auto;color:#95a5a6;font-size:11px;}
+.sectoral{padding:24px;max-width:960px;margin:0 auto;}
+.sectoral h2{margin-bottom:6px;font-size:20px;color:#1a252f;}
+.sectoral .desc{font-size:13px;color:#7f8c8d;margin-bottom:24px;}
+.flow-group{background:#fff;border-radius:10px;padding:20px;margin-bottom:18px;box-shadow:0 1px 6px rgba(0,0,0,.07);border-left:4px solid #e8ecef;}
+.flow-group.verde{border-left-color:var(--verde);}
+.flow-group.blu{border-left-color:var(--blu);}
+.flow-group.viola{border-left-color:var(--viola);}
+.flow-group.arancione{border-left-color:var(--arancione);}
+.flow-group.rosso{border-left-color:var(--rosso);}
+.flow-group h3{font-size:12px;text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px;color:#7f8c8d;font-weight:700;}
+.flow-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px;}
+.flow-node{padding:8px 14px;border-radius:7px;font-size:12px;font-weight:600;border:2px solid;white-space:nowrap;}
+.flow-arrow{font-size:20px;color:#aab7b8;font-weight:700;}
+.flow-note{font-size:11.5px;color:#7f8c8d;margin-top:8px;font-style:italic;line-height:1.5;}
+.prereq-list{padding:24px;max-width:780px;margin:0 auto;}
+.prereq-list h2{margin-bottom:6px;}
+.prereq-list .desc{font-size:13px;color:#7f8c8d;margin-bottom:24px;}
+.prereq-item{background:#fff;border-radius:10px;padding:16px 18px;margin-bottom:10px;box-shadow:0 1px 5px rgba(0,0,0,.07);display:flex;gap:14px;align-items:flex-start;}
+.prereq-num{width:32px;height:32px;border-radius:50%;text-align:center;line-height:32px;font-weight:700;font-size:13px;color:#fff;flex-shrink:0;margin-top:1px;}
+.prereq-body{flex:1;}
+.prereq-title{font-size:15px;font-weight:700;color:#1a252f;margin-bottom:5px;}
+.prereq-meta{font-size:12px;line-height:1.7;}
+.prereq-meta .req{color:#c0392b;}
+.prereq-meta .unlock{color:#27ae60;}
+.prereq-meta .focus{color:#2980b9;}
+</style>
+</head>
+<body>
+<div class="tabs">
+  <button class="tab-btn active" onclick="showTab('global',this)">🗺 Globale</button>
+  <button class="tab-btn" onclick="showTab('fondamenti',this)">⚗️ Fondamenti</button>
+  <button class="tab-btn" onclick="showTab('sensoriale',this)">👁 Sensoriale + Motoria</button>
+  <button class="tab-btn" onclick="showTab('sistemica',this)">❤️ Sistemica Integrata</button>
+  <button class="tab-btn" onclick="showTab('prereq',this)">📚 Ordine di Studio</button>
+</div>
+
+<div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
+<div class="side-panel" id="sidePanel">
+  <div class="panel-header">
+    <div class="panel-header-color" id="panelColor"></div>
+    <div class="panel-title" id="panelTitle">—</div>
+    <button class="panel-close" onclick="closePanel()">×</button>
+  </div>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<div id="tab-global" class="tab-content active">
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--verde)"></div>Fondamenti cellulari</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--blu)"></div>Comunicazione nervosa</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--viola)"></div>Sensoriale</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--arancione)"></div>Muscolare</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--rosso)"></div>Sistemica integrata</div>
+  <span class="hint">Clicca un nodo → tutti i punti chiave nel pannello · ESC per chiudere</span>
+</div>
+<div class="canvas-wrap" onclick="handleCanvasClick(event)">
+<div id="canvas-global">
+  <svg class="arrows" id="svg-arrows">
+    <defs>
+      <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0, 7 2.5, 0 5" fill="#b2bec3"/></marker>
+      <marker id="arr-rev" markerWidth="7" markerHeight="5" refX="0" refY="2.5" orient="auto"><polygon points="7 0, 0 2.5, 7 5" fill="#b2bec3"/></marker>
+    </defs>
+  </svg>
+  <div class="node verde" id="n-omeostasi"    data-key="omeostasi_e_compartimentazione"               style="left:28px;top:55px">Omeostasi e Compartimentazione</div>
+  <div class="node verde" id="n-trasduzione"  data-key="trasduzione_del_segnale"                      style="left:195px;top:55px">Trasduzione del Segnale</div>
+  <div class="node verde" id="n-sangue"       data-key="sangue"                                       style="left:28px;top:165px">Sangue</div>
+  <div class="node verde" id="n-potenziale"   data-key="potenziale_di_membrana_e_potenziale_d_azione" style="left:195px;top:165px">Potenziale di Membrana e PA</div>
+  <div class="node blu"   id="n-sinapsi"      data-key="sinapsi_e_neurotrasmettitori"                 style="left:380px;top:55px">Sinapsi e Neurotrasmettitori</div>
+  <div class="node blu"   id="n-classsin"     data-key="classificazione_delle_sinapsi"                style="left:380px;top:160px">Classificazione Sinapsi</div>
+  <div class="node blu"   id="n-nt"           data-key="neurotrasmettitori"                           style="left:380px;top:252px">Neurotrasmettitori</div>
+  <div class="node blu"   id="n-ach"          data-key="acetilcolina__ach_"                           style="left:535px;top:160px">Acetilcolina (ACh)</div>
+  <div class="node blu"   id="n-ammine"       data-key="ammine_biogene"                               style="left:535px;top:252px">Ammine Biogene</div>
+  <div class="node blu"   id="n-amminoacid"   data-key="neurotrasmettitori_aminoacidici"               style="left:535px;top:344px">NT Aminoacidici</div>
+  <div class="node viola" id="n-propsens"     data-key="propriet__di_base_dei_sistemi_sensoriali"     style="left:700px;top:55px">Proprietà Sistemi Sensoriali</div>
+  <div class="node viola" id="n-recettori"    data-key="recettori_somatosensoriali"                   style="left:700px;top:155px">Recettori Somatosensoriali</div>
+  <div class="node viola" id="n-visivo"       data-key="apparato_visivo"                              style="left:860px;top:55px">Apparato Visivo</div>
+  <div class="node viola" id="n-olfatto"      data-key="olfatto"                                      style="left:860px;top:150px">Olfatto</div>
+  <div class="node viola" id="n-gusto"        data-key="gusto"                                        style="left:860px;top:238px">Gusto</div>
+  <div class="node viola" id="n-udito"        data-key="udito"                                        style="left:1010px;top:55px">Udito</div>
+  <div class="node viola" id="n-vestibolare"  data-key="vestibolare"                                  style="left:1010px;top:150px">Vestibolare</div>
+  <div class="node arancione" id="n-muscsch"  data-key="contrazione_muscolare_scheletrica"            style="left:380px;top:460px">Contrazione Muscolare Scheletrica</div>
+  <div class="node arancione" id="n-musccard" data-key="muscolo_striato_cardiaco"                     style="left:195px;top:460px">Muscolo Striato Cardiaco</div>
+  <div class="node arancione" id="n-fusi"     data-key="fusi_neuromuscolari_e_propriocezione"         style="left:535px;top:460px">Fusi Neuromuscolari e Propriocezione</div>
+  <div class="node arancione" id="n-musclis"  data-key="muscolo_liscio"                               style="left:28px;top:460px">Muscolo Liscio</div>
+  <div class="node rosso" id="n-cardio"       data-key="apparato_cardiovascolare"                     style="left:28px;top:590px">Apparato Cardiovascolare</div>
+  <div class="node rosso" id="n-respir"       data-key="apparato_respiratorio"                        style="left:195px;top:590px">Apparato Respiratorio</div>
+  <div class="node rosso" id="n-digest"       data-key="apparato_digerente"                           style="left:380px;top:590px">Apparato Digerente</div>
+  <div class="node rosso" id="n-endocr"       data-key="sistema_endocrino_e_surrene"                  style="left:558px;top:590px">Sistema Endocrino e Surrene</div>
+  <div class="node rosso" id="n-termo"        data-key="termoregolazione"                             style="left:740px;top:590px">Termoregolazione</div>
+  <div class="node rosso" id="n-renale"       data-key="fisiologia_renale"                            style="left:916px;top:590px">Fisiologia Renale</div>
+</div>
+</div>
+</div>
+
+<div id="tab-fondamenti" class="tab-content">
+<div class="sectoral">
+<h2>Fondamenti Cellulari → Comunicazione</h2>
+<p class="desc">Catene prerequisito. Studia in quest'ordine: ogni blocco dipende dal precedente.</p>
+<div class="flow-group verde">
+  <h3>Catena fondamentale</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--verde-light);border-color:var(--verde);color:var(--verde-dark)">Omeostasi</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--verde-light);border-color:var(--verde);color:var(--verde-dark)">Potenziale di Membrana</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">Sinapsi e NT</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Sistemi Sensoriali</div>
+  </div>
+  <p class="flow-note">Gradienti Na⁺/K⁺ (Omeostasi) → substrato del potenziale di riposo → PA → linguaggio universale di sinapsi, muscolo e sensi.</p>
+</div>
+<div class="flow-group verde">
+  <h3>Trasduzione del segnale — nodo trasversale</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--verde-light);border-color:var(--verde);color:var(--verde-dark)">Trasduzione</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">Sinapsi (metabotropi)</div>
+    <span style="font-size:12px;color:#7f8c8d;padding:0 4px">+</span>
+    <div class="flow-node" style="background:var(--arancione-light);border-color:var(--arancione);color:var(--arancione-dark)">Muscolo Liscio (MLCK)</div>
+    <span style="font-size:12px;color:#7f8c8d;padding:0 4px">+</span>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Endocrino (recettori ormonali)</div>
+  </div>
+  <p class="flow-note">cAMP, IP₃/DAG, Ca²⁺ come secondi messaggeri sono trasversali a tutti i sistemi.</p>
+</div>
+<div class="flow-group verde">
+  <h3>Sangue — il mezzo</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--verde-light);border-color:var(--verde);color:var(--verde-dark)">Sangue (Hb, plasma)</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Cardiovascolare</div>
+    <span style="font-size:12px;color:#7f8c8d;padding:0 4px">+</span>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Respiratorio (trasporto gas)</div>
+  </div>
+  <p class="flow-note">Curva Hb-O₂ e effetti Bohr/Haldane: prerequisiti per la fisiologia respiratoria.</p>
+</div>
+<div class="flow-group blu">
+  <h3>Albero neurotrasmettitori</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">Sinapsi (principi)</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">Classificazione</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">NT generali</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">ACh · Ammine · AA</div>
+  </div>
+  <p class="flow-note">ACh → NMJ (Contrazione Scheletrica). Catecolamine → Cardiovascolare + Endocrino. GABA/Glu → inibizione/eccitazione SNC.</p>
+</div>
+</div>
+</div>
+
+<div id="tab-sensoriale" class="tab-content">
+<div class="sectoral">
+<h2>Sistema Sensoriale e Apparato Muscolare</h2>
+<p class="desc">Vie afferenti (sensoriale) ed efferenti (motoria) con i rispettivi feedback.</p>
+<div class="flow-group viola">
+  <h3>Via sensoriale ascendente</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Proprietà Sist. Sensoriali</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Recettori Somatosensoriali</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Termoregolazione (TRP)</div>
+  </div>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Proprietà Sist. Sensoriali</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Visivo · Olfatto · Gusto · Udito · Vestibolare</div>
+  </div>
+  <p class="flow-note">Trasduzione, codificazione, soglia, adattamento — concetti unificanti per tutti i sensi.</p>
+</div>
+<div class="flow-group viola">
+  <h3>Sensi speciali — principio comune</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Udito</div>
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Vestibolare</div>
+    <span style="font-size:12px;color:#7f8c8d;padding:0 8px">→ cellule ciliate + MET channels (stessa trasduzione)</span>
+  </div>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Olfatto</div>
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Gusto</div>
+    <span style="font-size:12px;color:#7f8c8d;padding:0 8px">→ GPCR → cAMP/IP₃ → glutammato</span>
+  </div>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--viola-light);border-color:var(--viola);color:var(--viola-dark)">Visivo</div>
+    <span style="font-size:12px;color:#7f8c8d;padding:0 8px">→ cGMP/CNG; iperpolarizzazione al buio; via W/P/K</span>
+  </div>
+</div>
+<div class="flow-group arancione">
+  <h3>Catena motoria (loop spinale)</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--blu-light);border-color:var(--blu);color:var(--blu-dark)">Sinapsi (ACh → NMJ)</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--arancione-light);border-color:var(--arancione);color:var(--arancione-dark)">Contrazione Muscolare Sch.</div>
+    <div class="flow-arrow">↔</div>
+    <div class="flow-node" style="background:var(--arancione-light);border-color:var(--arancione);color:var(--arancione-dark)">Fusi Neuromuscolari (γ)</div>
+  </div>
+  <p class="flow-note">Coattivazione α-γ: il motoneurone γ tende il fuso durante la contrazione → feedback continuo sulla lunghezza del muscolo.</p>
+</div>
+<div class="flow-group arancione">
+  <h3>Quattro tipi di muscolo</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+    <div style="background:#fff7f0;border:1px solid #f0d5c0;border-radius:7px;padding:12px"><div style="font-weight:700;font-size:12.5px;color:var(--arancione-dark);margin-bottom:6px">Scheletrico</div><div style="font-size:12px;line-height:1.6;color:#555">Striato, volontario · troponina-C · tipo I/II · unità motoria · sommazione → tetano</div></div>
+    <div style="background:#fff7f0;border:1px solid #f0d5c0;border-radius:7px;padding:12px"><div style="font-weight:700;font-size:12.5px;color:var(--arancione-dark);margin-bottom:6px">Cardiaco</div><div style="font-size:12px;line-height:1.6;color:#555">Striato, automatico · CICR · refrattarietà prolungata → NO tetano · Frank-Starling</div></div>
+    <div style="background:#fff7f0;border:1px solid #f0d5c0;border-radius:7px;padding:12px"><div style="font-weight:700;font-size:12.5px;color:var(--arancione-dark);margin-bottom:6px">Liscio</div><div style="font-size:12px;line-height:1.6;color:#555">Non striato · Ca²⁺-calmodulina-MLCK · latch · ICC pacemaker GI · unitario vs multi</div></div>
+    <div style="background:#fff7f0;border:1px solid #f0d5c0;border-radius:7px;padding:12px"><div style="font-weight:700;font-size:12.5px;color:var(--arancione-dark);margin-bottom:6px">Intrafusale (Fusi)</div><div style="font-size:12px;line-height:1.6;color:#555">Fibre Ia/II · riflesso miotatico monosinaptico · OTG tensione · controllo γ</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="tab-sistemica" class="tab-content">
+<div class="sectoral">
+<h2>Sistemi Integrati — Omeostasi Globale</h2>
+<p class="desc">Come i grandi apparati si regolano a vicenda per mantenere l'equilibrio interno.</p>
+<div class="flow-group rosso">
+  <h3>Loop PA: Cardio ↔ Rene ↔ Endocrino</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">↓ PA</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Rene: RAAS → aldosterone</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">↑ Na⁺/H₂O → ↑ Volemia → ↑ PA</div>
+  </div>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">↑ PA / ↑ Volemia</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Rene: ANP → ↑ natriuresi / ↓ ADH</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">↓ Volemia → PA corretta</div>
+  </div>
+  <p class="flow-note">ADH (Endocrino) → AQP2 nel dotto collettore → ritenzione H₂O. ANP = contrappeso cardiaco all'ipervolemia.</p>
+</div>
+<div class="flow-group rosso">
+  <h3>Cardiovascolare ↔ Respiratorio</h3>
+  <div class="flow-row">
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Cardio (circolo polmonare)</div>
+    <div class="flow-arrow">↔</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Respiratorio (alveoli)</div>
+  </div>
+  <p class="flow-note">HPV (vasocostrizione ipossica polmonare) redirige sangue agli alveoli ventilati. GC determina il tempo di transito eritrocitario (~0.75 s a riposo).</p>
+</div>
+<div class="flow-group rosso">
+  <h3>Endocrino → tutti i sistemi</h3>
+  <div class="flow-row" style="gap:6px;flex-wrap:wrap">
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Endocrino</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Cardio (catecolamine, ADH)</div>
+    <span>+</span>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Rene (aldosterone, ADH, ANP)</div>
+    <span>+</span>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Termoregolazione (T3/T4, adrenalina)</div>
+    <span>+</span>
+    <div class="flow-node" style="background:var(--rosso-light);border-color:var(--rosso);color:var(--rosso-dark)">Digerente (gastrina, CCK, secretina)</div>
+  </div>
+</div>
+<div class="flow-group rosso">
+  <h3>Termoregolazione — integrazione finale</h3>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12.5px;line-height:1.6">
+    <div><b>Afferenze:</b><br>• Termocettori cutanei (TRP) → Recettori Somatosensoriali<br>• Ipotalamo preottico (sensitivo al caldo) + nuclei posteriori (freddo)</div>
+    <div><b>Efferenze:</b><br>• Muscolo scheletrico → brivido<br>• Muscolo liscio → vasocostrizione/dilatazione periferica<br>• Endocrino → T3/T4, adrenalina → UCP-1 (brown fat)</div>
+    <div><b>Trasporto calore:</b><br>• Cardiovascolare distribuisce calore dal nucleo all'involucro</div>
+    <div><b>Termodispersione:</b><br>• Irraggiamento ~40%, evaporazione, convezione, conduzione</div>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="tab-prereq" class="tab-content">
+<div class="prereq-list">
+<h2>Ordine Consigliato di Studio</h2>
+<p class="desc">Ogni capitolo presuppone i precedenti. Studia in quest'ordine per evitare buchi concettuali.</p>
+
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#27ae60">1</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Omeostasi e Compartimentazione</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: nessuno</span><br>
+      <span class="unlock">Sblocca: tutti gli altri</span><br>
+      <span class="focus">⚡ Gradienti Na⁺/K⁺ LIC/LEC, pompa Na⁺/K⁺-ATPasi, osmolalità, compartimenti fluidi</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#27ae60">2</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Trasduzione del Segnale</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Omeostasi</span><br>
+      <span class="unlock">Sblocca: Sinapsi, Muscolo Liscio, Endocrino</span><br>
+      <span class="focus">⚡ GPCR, cAMP, IP₃/DAG, PKA/PKC, Ca²⁺ come secondo messaggero</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#27ae60">3</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Sangue</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Omeostasi</span><br>
+      <span class="unlock">Sblocca: Cardiovascolare, Respiratorio</span><br>
+      <span class="focus">⚡ Curva Hb-O₂, effetto Bohr, trasporto CO₂ (HCO₃⁻)</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#27ae60">4</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Potenziale di Membrana e PA</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Omeostasi (gradienti ionici)</span><br>
+      <span class="unlock">Sblocca: Sinapsi, Muscolo Sch., Muscolo Card., sensi sensoriali</span><br>
+      <span class="focus">⚡ Vm −70 mV, Nav chiuso→aperto→inattivato, refrattarietà, conduzione saltatoria</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#2980b9">5</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Sinapsi e NT (+ NT specifici)</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Potenziale d'Azione, Trasduzione</span><br>
+      <span class="unlock">Sblocca: Contrazione Sch. (NMJ), tutti i sensi speciali</span><br>
+      <span class="focus">⚡ Rilascio vescicolare, ionotropi vs metabotropi, LTP/LTD, ACh/GABA/Glu</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#8e44ad">6</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Proprietà Sistemi Sensoriali</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Potenziale d'Azione, Sinapsi</span><br>
+      <span class="unlock">Sblocca: Tutti i sensi speciali, Recettori Somatosensoriali</span><br>
+      <span class="focus">⚡ Trasduzione, potenziale di recettore, codificazione frequenza+popolazione, adattamento</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#8e44ad">7</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Sensi Speciali (Visivo/Olfatto/Gusto/Udito/Vestibolare)</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Proprietà Sensoriali, Trasduzione</span><br>
+      <span class="unlock">Sblocca: Integrazione sensoriale completa</span><br>
+      <span class="focus">⚡ Fototrasduzione, cellule ciliate, tonotopia, papille, GPCR olfattivi</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#8e44ad">8</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Recettori Somatosensoriali</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Proprietà Sensoriali</span><br>
+      <span class="unlock">Sblocca: Termoregolazione (TRP)</span><br>
+      <span class="focus">⚡ PIEZO2, TRP termici, nocicettori Aδ/C, vie colonne dorsali vs spinotalamico</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#d35400">9</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Contrazione Muscolare Scheletrica</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: PA, Sinapsi, Trasduzione</span><br>
+      <span class="unlock">Sblocca: Fusi Neuromuscolari, Respiratorio (diaframma), Termoregolazione (brivido)</span><br>
+      <span class="focus">⚡ Sarcomero, Ca²⁺→TnC, ciclo ponti trasversali, sommazione→tetano, tipo I/II</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#d35400">10</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Muscolo Striato Cardiaco</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: PA, Contrazione Sch.</span><br>
+      <span class="unlock">Sblocca: Cardiovascolare</span><br>
+      <span class="focus">⚡ CICR, plateau Ca²⁺ fase 2, refrattarietà prolungata, Frank-Starling, nodo SA</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#d35400">11</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Fusi Neuromuscolari e Propriocezione</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Contrazione Sch., Sinapsi, Proprietà Sensoriali</span><br>
+      <span class="unlock">Sblocca: Integrazione motorio-sensoriale</span><br>
+      <span class="focus">⚡ Fibre Ia/II, riflesso miotatico monosinaptico, coattivazione α-γ, OTG (riflesso inverso)</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#d35400">12</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Muscolo Liscio</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Trasduzione, Contrazione Sch.</span><br>
+      <span class="unlock">Sblocca: Cardiovascolare (vasomotricità), Digerente (peristalsi), Respiratorio</span><br>
+      <span class="focus">⚡ MLCK, calmodulina, latch, unitario vs multiunitario, ICC pacemaker GI</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#c0392b">13</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Apparato Cardiovascolare</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Muscolo Cardiaco, Muscolo Liscio, Sangue</span><br>
+      <span class="unlock">Sblocca: Respiratorio (circolo polmonare), Renale</span><br>
+      <span class="focus">⚡ Autoritmicità SA, ciclo cardiaco, GC=FC×GS, F=ΔP/R, Frank-Starling vascolare</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#c0392b">14</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Apparato Respiratorio</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Sangue (Hb), Cardiovascolare, Muscolo Sch.</span><br>
+      <span class="unlock">Sblocca: Integrazione scambi gassosi</span><br>
+      <span class="focus">⚡ Pressione intrapleurica, surfactante, spirometria, scambi per diffusione, CO₂ driver</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#c0392b">15</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Sistema Endocrino e Surrene</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Trasduzione del Segnale, Sinapsi</span><br>
+      <span class="unlock">Sblocca: Renale (ADH, aldosterone), Termoregolazione, sistemica</span><br>
+      <span class="focus">⚡ Asse IIP, ADH/ossitocina, GH/IGF-1, cortisolo, T3/T4, PTH, insulina/glucagone</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#c0392b">16</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Apparato Digerente</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Muscolo Liscio, Trasduzione</span><br>
+      <span class="unlock">Sblocca: Metabolismo energetico</span><br>
+      <span class="focus">⚡ Fasi cefalica/gastrica/intestinale, H⁺-K⁺-ATPasi, chilomicroni, sali biliari</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#c0392b">17</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Fisiologia Renale</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Omeostasi, Cardiovascolare, Endocrino</span><br>
+      <span class="unlock">Sblocca: Integrazione bilancio idrico-elettrolitico</span><br>
+      <span class="focus">⚡ VFG 125 ml/min, RAAS, clearance inulina/PAI, gradiente midollare, regolazione pH</span>
+    </div>
+  </div>
+</div>
+<div class="prereq-item">
+  <div class="prereq-num" style="background:#c0392b">18</div>
+  <div class="prereq-body">
+    <div class="prereq-title">Termoregolazione</div>
+    <div class="prereq-meta">
+      <span class="req">Prerequisiti: Recettori Somatosensoriali, Muscolo Sch., Endocrino</span><br>
+      <span class="unlock">Sblocca: Integrazione finale termica</span><br>
+      <span class="focus">⚡ Ipotalamo termostato, nucleo vs involucro, UCP-1 brown fat, scambio controcorrente</span>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+<script>
+const CHAPTERS = {
+  "omeostasi_e_compartimentazione": {title: "Omeostasi e Compartimentazione", pk: ["[Unità Funzionale: la Cellula e la Membrana Plasmatica] Tutti i sistemi fisiologici cooperano al fine del raggiungimento dell'omeostasi — il mantenimento di un ambiente interno stabile compatibile con la vita cellulare.", "Membrana nucleare → Assente → Presente", "Compartimentazione → Assente → Presente (organelli)", "Dimensioni → 1–10 μm → 10–100 μm", "LIC (Liquido Intracellulare): 2/3 ACT → ~40% peso corporeo", "LEC (Liquido Extracellulare): 1/3 ACT → ~20% peso corporeo", "K⁺ → 140–150 → 4–5", "Na⁺ → 10–15 → 140–145", "Cl⁻ → 4–10 → 100–105", "HCO₃⁻ → 10–12 → 24–28", "Ca²⁺ libero → ~0.0001 → ~1.2", "Proteine → Abbondanti (carica neg.) → Scarse (solo plasma)", "Interni: variazioni metaboliche, cataboliti, ROS (Specie Reattive dell'Ossigeno), infiammazione", "Esterni: variazioni di temperatura, agenti patogeni, tossine, variazioni osmotiche", "INTEGRALI/INTRINSECHE: monotopiche (1 dominio TM), politopiche (multipli domini TM) o ancorate a lipidi tramite GPI (Glycosylphosphatidylinositol)", "PERIFERICHE/ESTRINSECHE: associate tramite interazioni non covalenti su una delle due facce", "Enzima → Dipendenza → Direzione", "ATP → Interno → Esterno → PC, SM", "Scramblasi → Ca²⁺ → Bidirezionale", "Glucosio 5%: isotonica all'infusione (278 mOsm/L), ma dopo metabolizzazione del glucosio → ipotonica → espansione cellulare", "Urea extracellulare: permeante → entra nella cellula → iperosmoticità intracellulare → rigonfiamento", "Isoforma → Localizzazione → Note", "AQP1 → Eritrociti, tubulo prossimale renale → Prima identificata", "AQP2 → Dotto collettore renale", "Localizzazione → Km → Note", "Neuroni → ≈1 mM → Garantisce apporto costante", "SIMPORTO Na⁺/Glucosio (SGLT1): 2 Na⁺ + 1 glucosio → stesso verso → glucosio entra contro gradiente. Epitelio intestinale e renale.", "ANTIPORTO Na⁺/H⁺: Na⁺ entra, H⁺ esce → controllo pH intracellulare.", "ANTIPORTO Na⁺/Ca²⁺ (NCX): 3 Na⁺ entrano, 1 Ca²⁺ esce → complemento PMCA, cruciale nel miocardio.", "Ca²⁺ OUT → Uniporto → Espelle Ca²⁺ dalla cellula; [Ca²⁺]_i ≈ 10⁻⁷ M", "SERCA → Ca²⁺ → reticolo → Uniporto", "Clatrina: TRISKELION (3 catene pesanti + 3 leggere) → strutture pentagonali → esagonali → rivestimento poliedrico stabile", "Adattina (seleziona molecole da includere) + Dinamina (GTPasi, distacca la vescicola)", "Esempio: LDL → apo-B → recettore LDL → RME. Ipercolesterolemia familiare: mutazione LDL-recettore → accumulo colesterolo → aterosclerosi."], sub: ["Unità Funzionale: la Cellula e la Membrana Plasmatica", "Prokaryos vs Eukaryos", "Compartimentazione dei Fluidi Corporei", "Gradienti Ionici LIC/LEC", "Osmosi e Pressione Oncotica", "Omeostasi: Definizione e Sistemi di Controllo", "Composizione della Membrana Plasmatica", "Osmosi e Pressione Osmotica", "Gradienti e Trasporti", "Trasporti Passivi", "Trasporti Attivi", "Meccanismi Vescicolari: Esocitosi ed Endocitosi", "Trasporto Transepiteliale"]},
+  "trasduzione_del_segnale": {title: "Trasduzione del Segnale", pk: ["[Segnalazione Cellulare — Principi Generali] La trasduzione del segnale converte un segnale extracellulare in una risposta intracellulare specifica, seguendo la catena:", "ACh (Acetilcolina): cuore → ↓ FC; ghiandole → secrezione; muscolo scheletrico → contrazione", "Adrenalina: α₁ → vasocostrizione; β₂ → vasodilatazione periferica; β₁ → inotropismo/cronotropismo ↑ cardiaco → §Apparato Cardiovascolare", "Giunzioni comunicanti (gap junctions) → Contatto diretto → Cardiomiociti, epatociti", "Paracrina → Breve → Prostaglandine, fattori di crescita locali", "Autocrina → Stessa cellula → Fattori di crescita tumorali", "Endocrina → Lunga (via ematica) → Insulina, cortisolo", "Sinaptica → Fessura sinaptica → Neurotrasmettitori", "Amminici: catena biosintetica catecolamine: Tyr → L-DOPA → dopamina → noradrenalina (NA) → adrenalina (Adr); serotonina: Trp → 5-HT (5-idrossitriptamina); ormoni tiroidei (da Tyr) → §Tiroide", "Steroidei: colesterolo → pregnenolone (CYP11A1, membrana mitocondriale interna) → progesterone → mineralcorticoidi/glucocorticoidi/androgeni → estrogeni (aromatasi)", "Eicosanoidi: acido arachidonico → via COX (Cicloossigenasi) → prostaglandine/trombossani; via LOX (Lipoossigenasi) → leucotrieni. I FANS (Farmaci Antinfiammatori Non Steroidei) inibiscono COX.", "Proteina G → Effettore → Conseguenza", "Gs → ↑ AC (Adenilato Ciclasi) → ↑ AMPc (Adenosina Monofosfato Ciclico) → PKA", "Gi → ↓ AC → ↓ AMPc → ↓ PKA", "Gq → ↑ PLCβ (Fosfolipasi Cβ)", "Gt (trasducina) → ↑ PDE6 (Fosfodiesterasi 6) → ↓ cGMP (Guanosina Monofosfato Ciclico) → fototrasduzione", "IP₃ si lega al recettore IP₃R del reticolo endoplasmatico → apertura canali Ca²⁺ → ↑[Ca²⁺] citosolico (10⁻⁷ M → ~10⁻⁶ M)", "DAG rimane nella membrana → recluta PKC (Proteina Chinasi C) in cooperazione con Ca²⁺ e fosfatidilserina → fosforilazione substrati (metabolismo, NF-κB, secrezione)", "Calmodulina (CaM): 148 aa, 4 siti Ca²⁺ (2 per dominio globulare); legame Ca²⁺ → cambiamento conformazionale → attiva CaMKII, calcineurina, PDE → §Ematologia", "CaMKII: fosforila MLCK (contrazione muscolo liscio), canali ionici, fattori di trascrizione CREB", "Specificità: legame veloce e reversibile", "Affinità: quantificata da Kd (costante di dissociazione); Kd minore = affinità maggiore", "Ampiezza della risposta: dipende da concentrazione ligando, numero di recettori espressi e affinità specifica della coppia"], sub: ["Segnalazione Cellulare — Principi Generali", "Modalità di Comunicazione Cellulare", "Classificazione Chimica dei Messaggeri", "Classificazione Strutturale dei Recettori", "Meccanismi di Trasduzione Intracellulare", "Proprietà dei Recettori"]},
+  "sangue": {title: "Sangue", pk: ["Hb = 4 catene globiniche + 4 gruppi eme (Fe²⁺ al centro). Fe²⁺ lega O₂ (ossigenazione reversibile). Fe³⁺ (metaemoglobina, MetHb) non lega O₂ → inutile.", "Adulto: HbA₁ (α₂β₂) 97%, HbA₂ (α₂δ₂) 2.5%, HbF (α₂γ₂) <1% (elevata in feto)", "[Elementi Figurati] Gli elementi figurati sono prodotti nel midollo osseo rosso per emopoiesi a partire da una cellula staminale pluripotente (HSC — Hematopoietic Stem Cell) → CFU (Colony Forming Unit", "♂ → 4.5–5.5 → 13.5–17.5", "♀ → 4.0–5.0 → 12.0–16.0", "2–4% → Granuli rosso-arancio (MBP, ECP) → Risposta ad allergeni e parassiti", "Basofili → 0.5–1% → Granuli blu-neri (istamina, eparina)", "Conta piastrinica → Condizione", "VES ↑: infiammazione, tumori, fibrinogeno ↑, immunoglobuline ↑", "VES ↓: policitemia (viscosità ↑ → sedimentazione ↓)", "Frazione → Concentrazione → Funzione principale", "Albumina → 3.5–5.0 g/dL (~60%) → Pressione oncotica, trasporto", "α1/α2-globuline → 0.2–0.9 g/dL → Proteine di fase acuta", "β-globuline → 0.6–1.1 g/dL → Trasporto lipidi/ferro", "γ-globuline → 0.7–1.7 g/dL → Immunoglobuline (IgG, IgM, IgA, IgD, IgE)", "Fibrinogeno → ~0.3 g/dL → Precursore fibrina (coagulazione)", "Curva di dissociazione dell'Hb ↔ regolazione respiratoria (→ §Respirazione)", "2,3-DPG ↔ metabolismo eritrocitario (glicolisi anaerobia, via Rapoport-Luebering)", "HbF (↑ affinità per O₂, ↓ legame 2,3-DPG) ↔ circolazione fetale: favorisce il trasferimento di O₂ dalla Hb materna alla Hb fetale a livello placentare", "Ipoalbuminemia ↔ equilibrio idrico dei compartimenti (→ §Omeostasi e Compartimentazione)", "Fibrinogeno ↔ cascata coagulativa (sezione Coagulazione non ancora disponibile in questo documento)", "Condizione → Effetto sulla curva → Significato fisiologico", "↑ CO₂ / ↑ H⁺ / ↑ temperatura / ↑ 2,3-DPG → Spostamento a destra → ↓ affinità → ↑ cessione O₂ ai tessuti", "↓ CO₂ / ↓ H⁺ / ↓ temperatura / ↓ 2,3-DPG / HbF → Spostamento a sinistra → ↑ affinità → ↑ carica O₂ nei polmoni"], sub: ["Elementi Figurati", "Esami del Sangue", "Plasma: Componenti Chimiche", "Curva di Dissociazione dell'Emoglobina"]},
+  "potenziale_di_membrana_e_potenziale_d_azione": {title: "Potenziale di Membrana e Potenziale d'Azione", pk: ["Il V_m a riposo (~−70 mV) è determinato principalmente dalla diffusione di K⁺ attraverso canali leak (K2P)", "Nav ha 3 stati: Chiuso (riposo) → Aperto (depolarizzazione) → Inattivato (fase refrattaria)", "Il PA neuronale dura ~1–2 ms: Fase 0 (Na⁺ in) → Fase 3 (K⁺ out) → Fase 4 (iperpolarizzazione post-PA)", "Refrattarietà assoluta = Nav inattivati (non riapribili); garantisce propagazione unidirezionale", "Conduzione saltatoria (fibre mielinizzate): 70–120 m/s vs 0.5–2 m/s (amieliniche) — differenza di ~100×", "S4: sensore di voltaggio → depolarizzazione → apertura gate di attivazione", "Filtro DEKA (Asp-Glu-Lys-Ala): selettività per Na⁺", "Loop IFM (Ile-Phe-Met, DIII–DIV): meccanismo ball-and-chain → inattivazione", "TTX: blocca sito 1 extracellulare (regione P); Nav1.5/Nav1.8/1.9 resistenti per sostituzione Tyr→Cys", "Soglia raggiunta (~-55 mV) → apertura massiva canali Na⁺ voltaggio-dipendenti (Nav) → rapido ingresso Na⁺", "Conduttanza gNa domina su gK → la membrana si avvicina all'equilibrio del Na⁺ (E_Na ≈ +60 mV)", "Velocità di salita: 500-800 V/s nei neuroni mielinizzati", "Inattivazione rapida dei canali Nav (gate h si chiude) → cessa ingresso Na⁺", "Apertura canali K⁺ voltaggio-dipendenti a transiente (Kv: Ito nelle cellule cardiache, meno evidente nei neuroni)", "Breve e incostante nei neuroni — più evidente nelle cellule cardiache", "Nei neuroni questa fase non esiste → la ripolarizzazione procede senza interruzione", "Apertura canali K⁺ voltaggio-dipendenti (Kv ritardati) → massiva uscita K⁺ → ripolarizzazione", "Canali Nav ancora inattivati → refrattarietà assoluta", "gK >> gNa → la membrana si avvicina a E_K ≈ -90 mV", "I canali K⁺ ritardati si chiudono lentamente → sovrappasso del potenziale di riposo", "Periodo refrattario relativo: un secondo stimolo può evocare un PA solo se sufficientemente soprasoglia", "Ripristino progressivo dei canali Nav dall'inattivazione → uscita da fase refrattaria assoluta", "Canali K⁺ si chiudono", "Na⁺/K⁺-ATPasi ripristina i gradienti ionici (3 Na⁺ out, 2 K⁺ in) — contributo al potenziale < 10%", "Periodo refrattario relativo termina", "Fibre amieliniche: conduzione continua, velocità 0.5–2 m/s", "Fibre mielinizzate: conduzione saltatoria (nodi di Ranvier) → velocità 70–120 m/s (fibra Aα), saltatorio perché la corrente si propaga al nodo successivo saltando l'internodo rivestito da mielina", "Fattori che determinano la velocità: diametro dell'assone (↑diametro → ↑velocità), presenza di mielina", "V_m riposo ≈ −70 mV neuroni: K⁺ leak (K2P) domina; Na⁺/K⁺-ATPasi (3Na⁺ out/2K⁺ in) contribuisce ~−5 mV", "GHK: P_K : P_Na : P_Cl = 1 : 0.04 : 0.45 a riposo → K⁺ domina; cambia durante PA (P_Na↑↑)", "Nav: 3 stati (Chiuso → Aperto → Inattivato); gate m (attivazione) + gate h (inattivazione a loop IFM)", "PA neuronale ~1–2 ms: Fase 0 (Nav apre, Na⁺ entra) → Fase 3 (Kv ritardato, K⁺ esce) → Fase 4 (iperpolarizzazione)", "Refrattario assoluto (Nav inattivati, 0.5–1 ms) → unidirezionalità del PA", "Refrattario relativo (Nav parzialmente recuperati, gK elevata, 1–3 ms) → PA evocabile solo con stimolo soprasoglia", "Conduzione saltatoria: mielina isola internodi → corrente salta ai nodi di Ranvier → 70–120 m/s (Aα)", "Modello H-H: I_m = C_m·dV/dt + g_Na·(Vm−E_Na) + g_K·(Vm−E_K) + g_L·(Vm−E_L)", "Chiuso: riposo) → Aperto (depolarizzazione) → Inattivato (fase refrattaria)", "Refrattarietà assoluta: Nav inattivati (non riapribili); garantisce propagazione unidirezionale", "−70 mV: neuroni; muscolo scheletrico: −85 mV; cellule gliali: −90 mV).", "campo costante: campo elettrico uniforme attraverso la membrana) — questo distingue GHK da Nernst."], sub: ["Cellule Eccitabili vs Non Eccitabili", "Potenziale di Membrana a Riposo", "Canali Ionici Voltaggio-Dipendenti", "Driving Force e Modello di Hodgkin-Huxley", "Fasi del Potenziale d'Azione Neuronale", "Riepilogo — Potenziale di Membrana e Potenziale d'Azione"]},
+  "sinapsi_e_neurotrasmettitori": {title: "Sinapsi e Neurotrasmettitori", pk: ["terminale assonico presinaptico", "fessura sinaptica (~20 nm)", "membrana postsinaptica", "Scaffold → Recettori associati → Tipo sinapsi", "PSD-95, Shank, Homer → AMPA, NMDA → Eccitatoria (glutamatergica)", "Gephyrina → GABA-A, Glicina → Inibitoria", "LTP (Long-Term Potentiation, potenziamento a lungo termine): ↑ inserzione recettori AMPA → ↑ risposta postsinaptica", "LTD (Long-Term Depression, depressione a lungo termine): endocitosi Arc-mediata dei recettori AMPA → ↓ risposta", "CaMKII (calmodulina chinasi II), PKA (proteina chinasi A), PKC (proteina chinasi C) → fosforilazione pro-LTP", "PP1 (proteina fosfatasi 1), calcineurina → defosforilazione pro-LTD", "Formazione: guidata da molecole di adesione cellulare — neurexine (presinaptica) e neuroligine (postsinaptica)", "Priming vescicolare → Bassoon, Piccolo, RIM, Munc13 → Organizzazione zona attiva", "Fusione → SNARE (Sintaxina-1, SNAP-25, VAMP) + Sinaptotagmina-1 → Esocitosi Ca²⁺-dipendente", "Recupero → Clatrina, macchinario ultrarapido → Endocitosi vescicolare", "Ricezione → PSD-95/Gephyrina + AMPA/NMDA/GABA-A → Trasduzione postsinaptica", "Plasticità → CaMKII, PKA, PKC / PP1, Calcineurina → LTP / LTD", "Pruning → C1q, C3, CD47 → Eliminazione sinaptica"], sub: ["Neurotrasmissione e Sinapsi", "Meccanismo di Rilascio del Neurotrasmettitore", "Densità Postsinaptica (PSD)", "Plasticità Sinaptica: LTP e LTD", "Formazione ed Eliminazione delle Sinapsi", "Tabella Riepilogativa"]},
+  "classificazione_delle_sinapsi": {title: "Classificazione delle Sinapsi", pk: ["[Sinapsi Elettriche] Localizzate nel SNC, muscolo liscio, cardiaco e tessuti neuroendocrini. Comunicano tramite giunzioni comunicanti (gap junctions), trasmettendo il segnale (EPSP, Excitatory Post-Syn", "[Sinapsi Chimiche] Forma maggioritaria; utilizzano neurotrasmettitori (NT) rilasciati per esocitosi (https://pubmed.ncbi.nlm.nih.gov/41614918/).", "Asimmetrica (Gray I) → Spessa ~50 nm; scaffold PSD-95, Shank, Homer → Eccitatoria", "Simmetrica (Gray II) → Sottile; scaffold gephyrin → Inibitoria", "giunzioni comunicanti: gap junctions), trasmettendo il segnale (EPSP, Excitatory Post-Synaptic Potential, o IPSP, Inhibitory Post-Synaptic Potential) in modo bidirezio", "chiusura: meccanismo protettivo in caso di danno cellulare).", "Ionotropiche (dirette): eccitatorie/inibitorie", "Metabotropiche (indirette): recettore accoppiato a proteine G → §Trasduzione del Segnale", "complesso SNARE: sintaxina-1, SNAP25, sinaptobrevina/VAMP2); le proteine scaffold della zona attiva — bassoon, piccolo, RIM, Munc13 — organizzano il priming vescicolar", "Connessina → Localizzazione", "Cx36 → Neuroni del SNC", "Cx43 → Astrociti", "Simmetrica (Gray II) → Sottile; scaffold gephyrin"], sub: ["Sinapsi Elettriche", "Sinapsi Chimiche"]},
+  "neurotrasmettitori": {title: "Neurotrasmettitori", pk: ["Ionotropici (recettori-canale): legame → apertura diretta del canale → risposta in millisecondi (es. nAChR, GABA-A, AMPA, NMDA)", "Metabotropici (GPCR): legame → proteina G → 2° messaggero → risposta in secondi/minuti (es. mAChR, GABA-B, recettori per neuropeptidi)", "[Criteri di classificazione funzionale] - Ionotropici (recettori-canale): legame → apertura diretta del canale → risposta in millisecondi (es. nAChR, GABA-A, AMPA, NMDA)", "Recettori nicotinici (nAChR): ionotropici, permeabili a Na⁺/K⁺ → depolarizzazione rapida", "Recettori muscarinici (mAChR): M1/M3/M5 → Gq → PLC → IP₃ + DAG → ↑Ca²⁺; M2/M4 → Gi → ↓AMPc", "AMPA/NMDA: ionotropici; NMDA richiede anche depolarizzazione per rimozione del blocco da Mg²⁺ → ingresso Ca²⁺ → plasticità sinaptica", "mGluR (gruppo I): Gq → PLC; (gruppo II/III): Gi → ↓AMPc", "GABA-A: ionotropico, ingresso Cl⁻ → iperpolarizzazione rapida", "GABA-B: Gi → ↓AMPc + apertura canali K⁺ → iperpolarizzazione lenta", "Recettori D1/D5: Gs → ↑AMPc → PKA", "Recettori D2/D3/D4: Gi → ↓AMPc", "α1-adrenergici: Gq → PLC → IP₃/DAG → ↑Ca²⁺", "α2-adrenergici: Gi → ↓AMPc (autorecettori presinaptici → feedback negativo)", "β1/β2-adrenergici: Gs → AC → ↑AMPc (adenosina monofosfato ciclico) → PKA", "5-HT3: ionotropico (Na⁺/K⁺); tutti gli altri sottotipi: GPCR (Gs o Gi a seconda del sottotipo)"], sub: ["Criteri di classificazione funzionale", "Principali NT e vie di trasduzione", "Ricaptazione e inattivazione"]},
+  "acetilcolina__ach_": {title: "Acetilcolina (ACh)", pk: ["Gq → PLCβ → IP₃ (mobilizzazione Ca²⁺ dal reticolo) + DAG → PKC", "Gi → inibizione AC → ↓AMPc → ↓PKA → apertura canali GIRK → iperpolarizzazione", "Distretto → Composizione → Note", "Placca neuromuscolare → (α1)₂β1δε", "Gangli autonomi → α3β4 (prevalente) → —", "SNC → α4β2 (abbondante), α7 (omopentamero) → α7: alta permeabilità al Ca²⁺", "Sottotipo → Proteina G → Via di trasduzione", "Gi → IPSP, bradicardia"], sub: ["Recettori Colinergici"]},
+  "ammine_biogene": {title: "Ammine Biogene", pk: ["Step → Enzima → Cofattore", "Tyr → L-DOPA → TH (Tirosina Idrossilasi) — enzima limitante → BH4 (Tetraidrobiopterina), O₂", "L-DOPA → DA (Dopamina) → AADC (Aromatic Amino acid DeCarboxylase) → PLP (Piridossal-5'-Fosfato)", "DA → NA (Noradrenalina) → DBH (Dopamine β-Hydroxylase) → Vitamina C, O₂", "NA → Adrenalina → PNMT (Phenylethanolamine N-MethylTransferase) → SAM (S-Adenosil-Metionina)", "Recettore → Proteina G → Effettore", "α1 → Gq → PLC", "↓AC → ↓AMPc (adenosina monofosfato ciclico) → inibizione presinaptica", "β1/β2 → Gs → AC", "5-HT3: unico ionotropico — canale CATIONICO diretto → depolarizzazione rapida", "5-HT1: GPCR-Gi → ↓AMPc (es. autorecettore presinaptico, bersaglio triptani)", "5-HT2: GPCR-Gq → PLC → IP₃/DAG → ↑Ca²⁺", "5-HT4/6/7: GPCR-Gs → ↑AMPc"], sub: ["Catecolamine", "Serotonina (5-HT, 5-idrossitriptamina)"]},
+  "neurotrasmettitori_aminoacidici": {title: "Neurotrasmettitori Aminoacidici", pk: ["Richiede doppia condizione: legame Glu + depolarizzazione (sblocco Mg²⁺ voltaggio-dipendente)", "Coagonista obbligatorio: glicina (o D-serina) sul sito NR1", "Permeabilità a Ca²⁺ → attiva CaM-chinasi II → LTP (potenziamento a lungo termine)", "AMPA → Ionotropico → Canale ligando-dipendente", "Canale ligando+voltaggio-dipendente → Na⁺, Ca²⁺, blocco Mg²⁺ → Plasticità sinaptica, LTP", "mGluR (I) → Metabotropico → Gq → PLC → IP₃/DAG → ↑Ca²⁺", "Gi → ↓AMPc (adenosina monofosfato ciclico) → Adenilato ciclasi → Inibizione presinaptica", "GABA-A: canale Cl⁻ pentamerico; le benzodiazepine (sito allosterico) ↑frequenza apertura; i barbiturici ↑durata apertura", "GABA-B: Gi → ↓AMPc → PKA inattiva; presinapticamente ↓Ca²⁺ → ↓rilascio NT", "GABA-A → Ionotropico (Cl⁻) → ↑Cl⁻ → iperpolarizzazione", "Gi → ↓AMPc; ↑K⁺ (↓Ca²⁺ presinaptico) → Inibizione lenta → Pre- e post-sinaptico", "Principale inibitore del midollo spinale e tronco encefalico", "Recettore GlyR: canale Cl⁻ ligando-dipendente → iperpolarizzazione", "Antagonista selettivo: stricnina (convulsioni)", "⚠️ Ruolo duplice: NT inibitorio (GlyR) + coagonista obbligatorio del recettore NMDA (sito distinto)"], sub: ["Glutammato", "GABA (acido γ-aminobutirrico)", "Glicina"]},
+  "apparato_visivo": {title: "Apparato Visivo", pk: ["[STRUTTURA DELL'OCCHIO] L'occhio è organizzato in tre tuniche concentriche:", "Tunica → Componenti → Funzione principale", "Fibrosa (esterna) → Sclera (5/6 post.) + Cornea (1/6 ant.) → Protezione; cornea = principale potere rifrattivo (~43 D)", "Vascolare/Uvea (intermedia) → Coroide → Corpo ciliare → Iride → Nutrimento/ossigenazione retina", "Nervosa (interna) → Retina → Fototrasduzione", "Difetto → Causa → Correzione", "Miopia → Bulbo troppo lungo → fuoco davanti alla retina → Lenti concave", "Ipermetropia → Bulbo troppo corto → fuoco dietro la retina → Lenti convesse", "Presbiopia → ↓elasticità cristallino → deficit accomodazione → Lenti convesse per vicino", "MIOSI: parasimpatico → nucleo Edinger-Westphal → III n.c. → ganglio ciliare → muscolo sfintere (circolare)", "MIDRIASI: simpatico → centro ciliospinale Budge (C8-T2) → ganglio cervicale superiore → muscolo dilatatore (radiale)", "Via diretta: fotorecettori → bipolari → gangliari → nervo ottico", "Cellule orizzontali: inibizione laterale fotorecettore–bipolare → meccanismo centro-periferia → ↑contrasto", "Cellule amacrine: modulazione bipolare–gangliare (integrazione spaziotemporale)", "EPR (Epitelio Pigmentato Retinico) → Distribuzione fotorecettori:", "S (short) → ~420–440 nm → Blu-violetto", "M (medium) → ~530–535 nm → Verde", "L (long) → ~560–565 nm → Rosso-giallo", "↓Ca²⁺ intracellulare (per chiusura CNG) → guanilato ciclasi attivata dalla GCAP (Guanylate Cyclase-Activating Protein) → risintesi GMPc", "Rodopsina chinasi fosforila R* → legame arrestina → spegnimento del segnale", "All-trans-retinale rigenerato in 11-cis-retinale dall'EPR (ciclo visivo)", "Recettore → mGluR6 (metabotropico, Gi-like) → AMPA (ionotropico)", "Effetto del buio (↑Glu) → Iperpolarizzazione → Depolarizzazione", "Effetto della luce (↓Glu) → Depolarizzazione → segnale ON → Iperpolarizzazione → silenzio", "Campo visivo destro → proiezione bilaterale su emisfero sinistro", "Campo visivo sinistro → proiezione bilaterale su emisfero destro", "Buio: Glu alto → mGluR6 → Gi → canali chiusi → iperpolarizzazione bipolare", "Luce: ↓Glu → canali si aprono → depolarizzazione bipolare ON → gangliare ON ↑ frequenza", "Buio: Glu alto → AMPA → depolarizzazione bipolare", "Luce: ↓Glu → AMPA parzialmente chiusi → iperpolarizzazione bipolare OFF → gangliare OFF ↓ frequenza durante luce, burst all'offset (spegnimento luce)"], sub: ["STRUTTURA DELL'OCCHIO", "OTTICA E ACCOMODAZIONE", "IRIDE E RIFLESSO FOTOMOTORE", "RETINA E CIRCUITO RETINICO", "FOTOPIGMENTI E VISIONE DEI COLORI", "FOTOTRASDUZIONE", "VIA VISIVA E ELABORAZIONE CORTICALE"]},
+  "olfatto": {title: "OLFATTO", pk: ["OSN (Neuroni Olfattivi Sensoriali) = neuroni bipolari con ciglia immerse nel muco (ghiandole di Bowman)", "Recettori OR = GPCR a 7 domini TM; ~400 geni OR funzionali nell'uomo (50% sono pseudogeni)", "Ogni OSN esprime UN SOLO tipo di OR; ~20.000 OSN convergono per glomerulo nel bulbo", "Cascata: molecola odorosa → OR → Golf → ACIII → ↑AMPc → canali CNG (Ca²⁺/Na⁺) → depolarizzazione", "ANO2 (Anoctamina-2, canale Cl⁻ Ca²⁺-dipendente): amplifica il segnale del ~40%", "Ripristino: NCX espelle Ca²⁺; PDE1C (Ca²⁺/CaM) idrolizza AMPc", "Adattamento: Ca²⁺/CaM riduce affinità CNG per AMPc, inibisce ACIII, attiva PDE1C → riduzione segnale", "Unico senso SENZA relay talamico obbligatorio → Corteccia piriforme / Amigdala / Ippocampo", "Codifica combinatoriale: ogni odorante attiva pattern unico di OR → quasi infinite combinazioni", "Effetto Proust: collegamento olfatto-ippocampo → memoria autobiografica associata agli odori", "Scatolo: a bassa concentrazione = gelsomino; ad alta concentrazione = odore fecale (modifica pattern)"], sub: ["Trasduzione del Segnale Olfattivo"]},
+  "gusto": {title: "GUSTO", pk: ["Papille fungiformi: distribuite su tutta la superficie dorsale della lingua; contengono 1-5 calici ciascuna; più sensibili a dolce e salato", "Papille foliate: sui margini posterolaterali della lingua; calici multipli; più sensibili ad acido e umami", "Papille circumvallate (circumvallate o vallate): disposte a V rovesciata sul 1/3 posteriore; molto grandi, calici abbondanti; più sensibili ad amaro", "CD36 (recettore degli acidi grassi a lunga catena): sulle cellule gustative → blocco canali K⁺ → depolarizzazione → ↑Ca²⁺ intracellulare → rilascio NT", "GPR120 (recettore GPCR degli acidi grassi ω-3): segnalazione analoga a dolce/umami", "Dolce/umami intestinale → GLP-1 (Glucagon-Like Peptide-1) → ↑insulina + ↓glucagone + sazietà", "Grasso intestinale → CCK (Colecistochinina) → sazietà + secrezione pancreatica + contrazione colecisti", "Labeled line (linea dedicata): ogni fibra afferente risponde prevalentemente a una modalità gustativa → codifica specifica per qualità", "Across-fiber pattern: ogni fibra risponde a più modalità con intensità diverse → la qualità è codificata dal pattern complessivo di attivazione"], sub: ["Strutture Recettrici Gustative — Papille", "Gusti Aggiuntivi: Piccante, Grasso, Umami", "Codifica del Gusto"]},
+  "udito": {title: "UDITO", pk: ["Frequenza (Hz) → percepita come altezza tonale", "Intensità (dB) → percepita come volume", "Forma d'onda → percepita come timbro", "Endolinfa (dotto cocleare): alto K⁺, basso Na⁺ — composizione simile al liquido intracellulare; prodotta dalla stria vascolare", "Perilinfa (scale vestibolare e timpanica): composizione simile al plasma", "Base della coclea (membrana basilare rigida e stretta) → massima risposta a frequenze alte (>4.000 Hz)", "Apice della coclea (membrana basilare lassa e larga) → massima risposta a frequenze basse (<500 Hz)", "Numero → circa 3.500 → circa 12.000", "Funzione principale → Trasduzione del segnale → VIII n.c. → Amplificazione meccanica attiva (elettromotilità)", "Proteina chiave → Canali MET (tip-link) → Prestina (proteina motrice della membrana laterale)", "Innervazione afferente → 90–95% delle fibre del VIII n.c. → 5–10% delle fibre del VIII n.c.", "Cellule ciliate o nervo cocleare → Perdita permanente; spesso > 4 kHz inizialmente", "Centrale → Via uditiva o corteccia"], sub: ["Stimolo Acustico e Parametri", "Trasduzione nelle Cellule Ciliate (template meccanico → depolarizzazione)", "Cause di Sordità — Classificazione"]},
+  "vestibolare": {title: "VESTIBOLARE", pk: ["Laterale (orizzontale): rileva rotazione della testa sul piano orizzontale (es. girare la testa DX/SX)", "Anteriore (superiore): rileva rotazione sul piano sagittale (es. flessione/estensione del capo)", "Posteriore: rileva rotazione sul piano frontale (es. inclinazione laterale)", "Utricolo: piano orizzontale (macula orizzontale) → rileva accelerazione lineare orizzontale e inclinazione laterale", "Sacculo: piano verticale (macula verticale) → rileva accelerazione lineare verticale e forza di gravità", "Vertigini rotatorie intense (durata minuti-ore)", "Ipoacusia fluttuante (tipicamente basse frequenze inizialmente)", "Acufeni (tinnitus) — spesso a bassa frequenza", "Senso di pienezza auricolare", "Accelerazione angolare verticale/obliqua → Rotazione sul piano verticale → Nuclei vestibolari → VOR verticale/torsionale", "Utricolo → Accelerazione lineare orizzontale + gravità → Inclinazione laterale, accelerazione orizzontale"], sub: ["Recettori e Strutture", "Trasduzione (template meccanico → depolarizzazione, identico all'udito)", "Patologie Vestibolari Comuni", "Tabella Riassuntiva — Sistema Vestibolare"]},
+  "apparato_cardiovascolare": {title: "Apparato Cardiovascolare", pk: ["Il cuore è una doppia pompa che genera e mantiene due circoli in serie: il circolo polmonare (piccola circolazione, cuore destro) e il circolo sistemico (grande circolazione, cuore sinistro), tenuti completamente separati per evitare la miscelazione di sangue ossigenato e deossigenato.", "L'attività elettrica cardiaca origina dal nodo senoatriale (SA), pacemaker primario con frequenza intrinseca di 70–80 PA/min, e si propaga secondo un sistema di conduzione ordinato che garantisce la sequenza atri → ventricoli.", "Il potenziale d'azione delle cellule pacemaker è fondato su una depolarizzazione diastolica spontanea (\"prepotenziale\") sostenuta dalla corrente I_f (canali HCN), distinta dal potenziale d'azione delle cellule contrattili che possiede un plateau prolungato (fase 2) mediato da Ca²⁺.", "La gittata cardiaca (CO) = FC × Gittata Sistolica; a riposo ~5 L/min. I tre determinanti del volume sistolico sono: precarico (legge di Starling), contrattilità e postcarico.", "Il flusso sanguigno obbedisce alla relazione F = ΔP/R; le arteriole sono i principali siti di resistenza e di regolazione della distribuzione del flusso ai tessuti tramite meccanismi miogenici, metabolici, paracrini e neurogenici.", "Le vene fungono da serbatoio di volume (alta compliance), le arterie da serbatoio di pressione (bassa compliance), garantendo la perfusione continua anche durante la diastole.", "Il periodo refrattario prolungato del miocardio impedisce la tetanizzazione, proteggendo la funzione di pompa.", "L'autoregolazione locale (effetto Bayliss, iperemia attiva e reattiva) mantiene un flusso costante in organi critici come cervello e reni nonostante le fluttuazioni della pressione sistemica."], sub: ["Organizzazione Generale dell'Apparato Cardiovascolare", "Vascolarizzazione del Cuore: Le Coronarie", "Struttura del Muscolo Cardiaco", "Attività Elettrica del Cuore: Autoritmicità e Sistema di Conduzione", "Basi Ioniche del Potenziale d'Azione delle Cellule Contrattili", "Elettrocardiogramma (ECG)", "Il Ciclo Cardiaco", "Gittata Cardiaca e Sua Regolazione", "Fisiologia Vascolare: Pressione, Flusso e Resistenza"]},
+  "apparato_respiratorio": {title: "Apparato Respiratorio", pk: ["Il sistema respiratorio garantisce la fornitura di O₂ e l'eliminazione di CO₂, con un consumo basale di ~200 ml O₂/min che può aumentare fino a 30 volte sotto sforzo.", "La ventilazione è guidata da gradienti di pressione generati dalla variazione di volume polmonare (Legge di Boyle): l'inspirazione è attiva, l'espirazione tranquilla è passiva.", "La pressione intrapleurica negativa (–4 mmHg a riposo) è il meccanismo chiave che accoppia i movimenti della gabbia toracica all'espansione polmonare.", "Il surfactante (prodotto dai pneumociti di tipo II) riduce la tensione superficiale alveolare, prevenendo il collasso degli alveoli piccoli secondo la Legge di Laplace.", "Gli scambi gassosi avvengono per diffusione passiva attraverso la membrana respiratoria (0,5 µm) seguendo i gradienti di pressione parziale di O₂ e CO₂.", "L'O₂ è trasportato per ~98,5% legato all'emoglobina; la CO₂ prevalentemente (70%) come bicarbonato HCO₃⁻.", "Il ritmo respiratorio è generato dal complesso pre-Bötzinger nel bulbo (CPG); è modulato da chemocettori centrali (sensibili a CO₂/pH nel LCR) e periferici (sensibili a PO₂, PCO₂, pH plasmatico).", "⚠️ Il principale stimolo chemocettivo alla ventilazione è la PCO₂ arteriosa, non la PO₂; fanno eccezione i pazienti con BPCO cronica, in cui il drive ipossico diventa predominante."], sub: ["Introduzione e Funzione del Sistema Respiratorio", "Anatomia Funzionale del Sistema Respiratorio", "Il Sacco Pleurico e le Pressioni Polmonari", "Meccanica Respiratoria", "Compliance Polmonare, Tensione Superficiale e Surfactante", "Spazi Polmonari e Spirometria", "Circolazione Polmonare e Membrana Respiratoria", "Scambi Gassosi: Gradienti di Pressione Parziale"]},
+  "apparato_digerente": {title: "Apparato Digerente", pk: ["Il sistema gastrointestinale svolge quattro funzioni principali: motilità, secrezione, digestione e assorbimento, coordinate da sistemi nervosi, endocrini e paracrini.", "La motilità comprende tre pattern distinti: peristalsi (propulsione), segmentazione (rimescolamento) e contrazioni toniche (controllo degli sfinteri); tra i pasti opera il Complesso Motorio Migrante (CMM).", "La secrezione acida gastrica dipende dalla H⁺-K⁺-ATPasi delle cellule parietali, bersaglio degli inibitori della pompa protonica (IPP); il bicarbonato pancreatico neutralizza il chimo acido nel duodeno.", "Carboidrati, proteine e lipidi seguono cascate digestive specifiche che iniziano già in bocca e si completano nell'intestino tenue, dove avviene anche la quasi totalità dell'assorbimento.", "I lipidi richiedono l'emulsionamento biliare e la formazione di micelle per essere resi accessibili alla lipasi pancreatica; i prodotti di digestione lasciano l'enterocita come chilomicroni attraverso la via linfatica.", "Diverse patologie clinicamente rilevanti si comprendono meglio attraverso la fisiologia: reflusso gastroesofageo, ernia iatale, intolleranza al lattosio, fibrosi cistica (canale CFTR) e ulcere peptiche trovano tutte una base fisiopatologica nelle slide."], sub: ["Organizzazione generale dell'apparato digerente", "Motilità gastrointestinale", "Le fasi della digestione: cefalica, gastrica e intestinale", "Attività secretoria", "Digestione e assorbimento dei macronutrienti"]},
+  "sistema_endocrino_e_surrene": {title: "Sistema Endocrino e Surrene", pk: ["Il sistema endocrino è un sistema di comunicazione chimica lento ma duraturo, complementare al sistema nervoso: agisce tramite ormoni secreti nel sangue che raggiungono cellule bersaglio dotate di recettori specifici.", "Gli ormoni si distinguono in idrofili (peptidici/catecolamine, recettori di membrana, secondi messaggeri) e lipofili (steroidei/tiroidei, recettori intracellulari, effetti genomici lenti).", "L'asse ipotalamo-ipofisi è il centro di integrazione neuroendocrina: la circolazione portale ipofisaria consente agli ormoni ipotalamici di raggiungere l'adenoipofisi in concentrazioni efficaci senza dispersione sistemica.", "La neuroipofisi secerne ADH (controllo dell'osmolalità e della volemia) e ossitocina (parto, allattamento); entrambi sono sintetizzati nell'ipotalamo e trasportati per via assonale.", "Il GH agisce direttamente e indirettamente (via IGF-1) sulla crescita ossea e muscolare; la sua secrezione è pulsatile, stimolata durante il sonno non-REM e dallo stress ipoglicemico.", "Il cortisolo è l'ormone chiave della risposta allo stress prolungato: promuove gluconeogenesi, catabolismo proteico e lipidico, e sopprime la risposta immuno-infiammatoria.", "Le catecolamine (adrenalina e noradrenalina) mediano la risposta acuta di lotta o fuga attraverso recettori adrenergici α e β; la loro secrezione è controllata direttamente dal sistema nervoso simpatico via acetilcolina e recettori nicotinici.", "I due sistemi di risposta allo stress (asse HPA → cortisolo; sistema simpatico-midollare → catecolamine) si potenziano reciprocamente e cooperano per massimizzare la disponibilità di substrati energetici."], sub: ["1. Il Sistema Endocrino: Definizione, Funzione e Confronto con il Sistema Nervoso", "2. Classificazione degli Ormoni e dei loro Recettori", "3. Meccanismi di Sintesi, Trasporto e Catabolismo degli Ormoni", "4. Meccanismi di Trasduzione del Segnale Ormonale", "5. Sistemi di Regolazione dell'Attività Endocrina", "6. L'Asse Ipotalamo-Ipofisario", "7. La Neuroipofisi: ADH e Ossitocina", "1. Asse Ipotalamo-Ipofisi-Tiroide: Anatomia Funzionale e Feedback", "2. Ormoni Tiroidei: Biosintesi, Meccanismo d'Azione ed Effetti Fisiologici", "3. Metabolismo del Calcio e del Fosforo: Fisiologia Generale", "4. Paratormone (PTH): Regolazione e Meccanismi d'Azione"]},
+  "termoregolazione": {title: "Termoregolazione", pk: ["Gli animali omeotermi mantengono costante la temperatura corporea indipendentemente dall'ambiente, grazie all'equilibrio tra termogenesi e termodispersione, pilastri fondamentali dell'omeostasi.", "Il corpo è organizzato in un nucleo centrale (temperatura costante ~37 °C) e un involucro periferico (temperatura variabile), con il sangue come principale vettore di calore.", "Il centro integratore è l'ipotalamo: la regione anteriore (area preottica) media la risposta al caldo; quella posteriore media la risposta al freddo.", "La termoregolazione funziona come un sistema a feedback negativo con un set point di riferimento, la cui alterazione è alla base della febbre.", "La termogenesi si realizza tramite meccanismi con brivido (contrazioni muscolari scheletriche) e senza brivido (tessuto adiposo bruno, catecolamine, ormoni tiroidei).", "La termodispersione avviene per quattro vie fisiche: irraggiamento, conduzione, convezione ed evaporazione; quest'ultima è l'unica efficace quando la temperatura ambientale supera quella cutanea.", "Il meccanismo di scambio in controcorrente nelle estremità permette di conservare il calore corporeo nel freddo e di disperderlo nel caldo, grazie a una finissima regolazione vasomotoria.", "Variazioni fisiologiche della temperatura (ritmo circadiano, ciclo mestruale, attività muscolare) sono normali e riflettono modulazioni del set point ipotalamico.", "In contesti clinici — anestesia, terapie transdermiche, colpo di calore, ipotermia — i meccanismi termoregolatori acquistano rilevanza pratica diretta."], sub: ["1. Omeostasi termica e classificazione degli animali", "2. Organizzazione termica del corpo: nucleo e involucro", "3. Meccanismi centrali di controllo: l'ipotalamo come termostato", "4. Variazioni fisiologiche della temperatura corporea", "5. Termogenesi: produzione di calore", "6. Termoconservazione", "7. Termodispersione"]},
+  "contrazione_muscolare_scheletrica": {title: "Contrazione Muscolare Scheletrica", pk: ["Il muscolo scheletrico è un tessuto eccitabile controllato esclusivamente dal sistema nervoso somatico tramite motoneuroni α; l'unità funzionale è l'unità motoria.", "La struttura contrattile di base è il sarcomero, composto da filamenti spessi (miosina) e sottili (actina + proteine regolatrici troponina/tropomiosina).", "L'accoppiamento eccitazione-contrazione collega la depolarizzazione del sarcolemma al rilascio di Ca²⁺ dal reticolo sarcoplasmatico tramite la triade (tubulo T + cisterne terminali).", "Il Ca²⁺ è il segnale trigger: si lega alla troponina C, rimuove l'inibizione della tropomiosina e permette la formazione dei ponti trasversali actina-miosina con idrolisi di ATP (ciclo dei ponti trasversali).", "La forza contrattile è graduata dal reclutamento di unità motorie e dalla sommazione temporale/tetanizzazione; il tetano fisiologico può sviluppare fino a 8× la tensione di una singola scossa.", "La forza dipende dalla lunghezza del sarcomero (curva tensione-lunghezza), dal tipo di contrazione (isometrica/isotonica concentrica/eccentrica) e dalla velocità di accorciamento (relazione forza-velocità).", "Le fibre muscolari si distinguono in tipo I (lente, ossidative, resistenti alla fatica) e tipo II (rapide, glicolitiche, affaticabili); la fonte energetica immediata è la fosfocreatina, seguita da glicolisi e fosforilazione ossidativa.", "Patologie chiave: distrofia muscolare (assenza di distrofina), miastenia gravis e paralisi da curaro (blocco recettori nicotinici), paralisi flaccida da tossina botulinica, paralisi spastica da tossina tetanica."], sub: ["Organizzazione del Tessuto Muscolare Scheletrico", "Struttura Cellulare e Molecolare della Fibra Muscolare", "Giunzione Neuromuscolare e Trasmissione del Segnale", "Accoppiamento Eccitazione-Contrazione", "Ciclo dei Ponti Trasversali e Contrazione Molecolare", "Meccanica della Contrazione: dalla Scossa al Tetano"]},
+  "muscolo_striato_cardiaco": {title: "Muscolo Striato Cardiaco", pk: ["Il miocardio è muscolo striato organizzato in sarcomeri come lo scheletrico, ma funziona come sincizio elettrico grazie ai dischi intercalari con gap junctions, propagando il potenziale d'azione in modo coordinato all'intero organo.", "L'attività contrattile cardiaca è miogena (autonoma): nasce dalle cellule pacemaker del nodo seno-atriale, indipendentemente dal sistema nervoso somatico.", "Il potenziale d'azione del miocardio di lavoro presenta una caratteristica fase di plateau (fase 2) sostenuta dall'ingresso di Ca²⁺ attraverso canali L, che prolunga il periodo refrattario assoluto (~200 ms) impedendo tetanizzazione e sommazione.", "L'accoppiamento eccitazione-contrazione è mediato dal CICR (Calcium-Induced Calcium Release): il Ca²⁺ extracellulare che entra durante il plateau attiva i recettori RYR2 del reticolo sarcoplasmatico, amplificando il transiente calcico in modo autorigenerativo.", "La contrattilità è modulata estrinsecamente (catecolamine → inotropismo positivo; acetilcolina → inotropismo negativo) e intrinsecamente dalla legge di Frank-Starling (aumento del volume telediastolico → aumento della forza di contrazione).", "Il miocardio dipende quasi esclusivamente dalla fosforilazione ossidativa e da un continuo apporto di O₂ tramite il circolo coronarico; non tollera l'anaerobiosi prolungata.", "A differenza del muscolo scheletrico, nel miocardio non esiste reclutamento, non esiste tetanizzazione e, in condizioni fisiologiche, non si verifica fatica muscolare."], sub: ["Caratteristiche Generali e Classificazione", "Organizzazione Cellulare e Giunzioni Intercellulari", "Automatismo e Attività Miogena", "Potenziale d'Azione nel Miocardio di Lavoro", "Accoppiamento Eccitazione-Contrazione nel Cardiomiocita", "Modulazione della Contrattilità: Controllo Estrinseco", "Modulazione della Contrattilità: Controllo Intrinseco — Legge di Frank-Starling", "Confronto tra Accoppiamento E-C Cardiaco e Scheletrico"]},
+  "fusi_neuromuscolari_e_propriocezione": {title: "Fusi Neuromuscolari e Propriocezione", pk: ["La propriocezione è il senso della postura e del movimento: informa il SNC sulla lunghezza, velocità di variazione e tensione dei muscoli, rendendo possibile il movimento fluido e il mantenimento della postura anche senza il controllo visivo.", "I principali propriocettori muscolari sono i fusi neuromuscolari (sensibili alla lunghezza e alla velocità di allungamento) e gli organi tendinei del Golgi (sensibili alla tensione/forza sviluppata).", "I fusi neuromuscolari sono costituiti da fibre intrafusali innervate in via motoria dai motoneuroni γ e in via sensoriale dalle fibre Ia (primarie) e II (secondarie).", "Il riflesso miotatico (da stiramento) è un arco monosinaptico: Ia → motoneurone α → contrazione del muscolo allungato. È il substrato neurale del tono muscolare.", "La coattivazione α-γ garantisce che i fusi rimangano tesi e funzionali anche durante la contrazione muscolare, preservando la sensibilità al nuovo stiramento su tutta la gamma di lunghezze.", "Gli organi tendinei del Golgi (OTG) misurano la tensione muscolare e, ad alta attivazione, inducono il riflesso miotatico inverso (inibizione del motoneurone α) proteggendo muscoli e tendini da sovraccarichi.", "I sistemi motori sono organizzati gerarchicamente (corteccia → tronco encefalico → midollo spinale) e in parallelo, con il cervelletto e i gangli della base che modulano l'output tramite il talamo.", "La perdita della propriocezione abolisce la capacità di mantenere la postura e di coordinare i movimenti automatici, anche in presenza di forza muscolare integra."], sub: ["Il Controllo Motorio: Organizzazione Gerarchica e Tipi di Movimento", "Anatomia del Midollo Spinale nel Contesto Motorio-Sensitivo", "La Propriocezione: Definizione e Significato Funzionale", "Il Fuso Neuromuscolare: Struttura", "Il Riflesso Miotatico (Riflesso da Stiramento)", "Il Tono Muscolare: Base Neurale", "La Coattivazione α-γ: Mantenere il Fuso Sensibile Durante la Contrazione", "Confronto Fuso Neuromuscolare vs. Organo Tendineo del Golgi", "Il Circuito Propriocettivo Spinale: Integrazione", "Integrazione con il Controllo Posturale e della Stabilità", "Riepilogo Finale"]},
+  "muscolo_liscio": {title: "Muscolo Liscio", pk: ["Il muscolo liscio forma la parete degli organi cavi (vasi, visceri, vie aeree, apparato urogenitale) e svolge funzioni vitali di trasporto e contenimento del lume", "Le fibrocellule sono piccole, mononucleate, prive di sarcomeri e di tubuli T; le caveolae suppliscono funzionalmente ai tubuli T del muscolo striato", "Si distinguono due organizzazioni funzionali: muscolo liscio unitario (viscerale, con gap junctions e attività autoritmica) e muscolo liscio multiunitario (a controllo nervoso preciso, senza gap junctions)", "La contrazione è Ca²⁺-dipendente ma il meccanismo regolatorio coinvolge calmodulina → MLCK → fosforilazione delle catene leggere della miosina, in assenza di troponina; il caldesmone svolge il ruolo di blocco sterico analogo al complesso Tm-Tn del muscolo striato", "L'attività contrattile può essere fasica (potenziali d'azione, contrazioni brevi) o tonica (depolarizzazione sostenuta, forza mantenuta a basso consumo di ATP); i ponti trasversali \"latch\" consentono la contrazione tonica senza fatica", "I canali K⁺_ATP collegano lo stato metabolico cellulare all'eccitabilità della membrana e al tono muscolare, rappresentando un meccanismo di accoppiamento metabolico-meccanico", "Le cellule interstiziali di Cajal (ICC) generano le onde lente pacemaker nel tratto gastrointestinale, coordinando la motilità viscerale", "La velocità di contrazione è decine di volte inferiore a quella del muscolo scheletrico, ma permette contrazioni durature e resistenza alla fatica grazie al basso consumo di ATP"], sub: ["Distribuzione e Funzioni del Muscolo Liscio", "Caratteristiche Morfologiche delle Fibrocellule Muscolari Lisce", "Classificazione: Muscolo Liscio Unitario e Multiunitario", "Proteine Contrattili e Regolatrici", "Accoppiamento Eccitazione-Contrazione: Ruolo del Calcio", "Cascata Molecolare della Contrazione", "Rilasciamento del Muscolo Liscio", "Controllo dell'Attività Contrattile", "Classificazione Contrattile: Contrazioni Fasiche e Toniche"]},
+  "propriet__di_base_dei_sistemi_sensoriali": {title: "Propriet\u00e0 di Base dei Sistemi Sensoriali", pk: ["I recettori sensoriali periferici sono trasduttori: convertono forme di energia fisica o chimica in segnali elettrici (potenziale di recettore) trasmissibili al SNC.", "La trasduzione genera un potenziale graduato (potenziale di recettore/generatore) proporzionale all'intensità dello stimolo, non un fenomeno tutto-o-nulla.", "La codificazione dell'intensità avviene tramite codice di frequenza (Hz di scarica del singolo afferente) e codice di popolazione (numero di recettori/neuroni reclutati).", "La modalità sensoriale è determinata dalla via nervosa attivata (linea marcata), non dalla natura fisica dello stimolo — principio delle energie nervose specifiche di Müller.", "La localizzazione dello stimolo dipende dalle dimensioni del campo recettivo e dall'inibizione laterale, che aumenta l'acuità sensoriale migliorando il contrasto spaziale.", "I recettori si dividono in tonici (adattamento lento, segnalano la durata) e fasici (adattamento rapido, segnalano l'inizio e la fine dello stimolo).", "L'organizzazione topografica si conserva lungo tutta la via sensoriale, culminando nella mappa somatotopica corticale (homunculus sensitivus).", "La frequenza di scarica massima è fisicamente limitata dal periodo refrattario assoluto del potenziale d'azione (~500–1000 PdA/s)."], sub: ["1. I Recettori Sensoriali Periferici come Trasduttori", "2. Trasduzione Sensoriale: dal Segnale Fisico al Potenziale di Recettore", "3. Codificazione del Segnale Sensoriale", "4. Soglia e Acuità Sensoriale", "5. Organizzazione delle Vie Sensoriali Ascendenti", "Riepilogo"]},
+  "recettori_somatosensoriali": {title: "Recettori Somatosensoriali", pk: ["Il sistema somatosensoriale comprende cinque modalità principali (tatto, nocicezione, termocezione, propriocezione, enterocezione) trasmesse da due vie ascendenti distinte: la via delle colonne dorsali-lemnisco mediale e il tratto spinotalamico anterolaterale.", "I meccanocettori cutanei (Meissner, Pacini, Merkel, Ruffini, follicoli piliferi) differiscono per velocità di adattamento, profondità di localizzazione e tipo di stimolo ottimale; il meccanismo molecolare di trasduzione è mediato principalmente dal canale PIEZO2.", "I termocettori sono recettori tonici a scarica continua la cui frequenza di scarica codifica la temperatura assoluta; rispondono anche in modo fasico alle variazioni rapide. I canali TRP (TRPV, TRPM8, TRPA1) costituiscono i termometri molecolari delle terminazioni libere.", "La zona di neutralità termica (28–30 °C) definisce l'intervallo in cui non si genera alcuna percezione termica cosciente; al di sotto dei 5 °C e al di sopra dei 45 °C vengono reclutati i nocicettori.", "Il dolore è un'esperienza sensoriale ed emotiva elaborata dalla corteccia e dal sistema limbico; la nocicezione è invece il processo puramente fisiologico di trasduzione e trasmissione dello stimolo nocivo, indipendente dalla coscienza.", "I nocicettori sono recettori ad alta soglia, privi di struttura specializzata (terminazioni nervose libere), classificati in termici, meccanici, chimici, polimodali e silenti; il canale TRPV1 è il principale sensore molecolare del dolore termico e chimico.", "Il primo dolore (fibre Aδ, rapido, pungente) e il secondo dolore (fibre C, lento, urente) riflettono la doppia innervazione nocicettiva con diverse velocità di conduzione.", "L'infiammazione abbassa la soglia dei nocicettori fino a generare iperalgesia e, nei casi estremi, dolore spontaneo; i nocicettori silenti vengono reclutati ex novo durante i processi infiammatori."], sub: ["Il Sistema Somatosensoriale: Organizzazione Generale", "Classificazione delle Fibre Afferenti Somatosensoriali", "Corteccia Somatosensoriale: Organizzazione Topografica", "Meccanocettori Tattili: Struttura, Localizzazione e Proprietà", "Meccanotrasduzione: Dal Tocco al Segnale Elettrico", "Termocezione: Fisiologia dei Termocettori", "Canali TRP: I Termometri Molecolari", "Termocezione Centrale e Termoregolazione"]},
+  "fisiologia_renale": {title: "Fisiologia Renale", pk: ["VFG normale: 125 ml/min → 180 L/24h; il 99% del filtrato viene riassorbito → urina finale ≈ 1,5 L/die", "Pressione netta di filtrazione = PICG (55) − [POCG (30) + PICB (15)] = 10 mmHg", "Clearance inulina = VFG (125 ml/min); clearance PAI = flusso plasmatico renale (660 ml/min)", "Autoregolazione intrinseca (range 80–180 mmHg): tre meccanismi — miogeno, feedback tubulo-glomerulare, cellule mesangiali", "ADH: inserisce AQP2 nella membrana apicale → ↑ permeabilità H₂O nel tubulo distale e dotto collettore", "Aldosterone: ↑ riassorbimento Na⁺ (ENaC + Na⁺/K⁺-ATPasi) e ↑ secrezione K⁺/H⁺ nel tubulo distale e dotto collettore", "Sistema RAAS: ↓PA → ↑Renina → Angiotensina I → (ACE) → Angiotensina II → ↑Aldosterone + vasocostrizione", "Acidosi → iperkaliemia; alcalosi → ipokaliemia; iperaldosteronismo → alcalosi metabolica + ipokaliemia"], sub: ["Funzioni del Rene", "Anatomia Funzionale", "Filtrazione Glomerulare", "Autoregolazione della VFG", "Riassorbimento e Secrezione Tubulare", "Gradiente Osmotico Midollare e Concentrazione dell'Urina", "Clearance Renale", "Regolazione Ormonale: Aldosterone, RAAS e ANP", "Regolazione Renale del pH", "Riepilogo Rapido"]},
+};
+
+const NODE_MAP = {"omeostasi": "omeostasi_e_compartimentazione", "trasduzione": "trasduzione_del_segnale", "sangue": "sangue", "potenziale": "potenziale_di_membrana_e_potenziale_d_azione", "sinapsi": "sinapsi_e_neurotrasmettitori", "classsin": "classificazione_delle_sinapsi", "nt": "neurotrasmettitori", "ach": "acetilcolina__ach_", "ammine": "ammine_biogene", "amminoacid": "neurotrasmettitori_aminoacidici", "propsens": "propriet__di_base_dei_sistemi_sensoriali", "recettori": "recettori_somatosensoriali", "visivo": "apparato_visivo", "olfatto": "olfatto", "gusto": "gusto", "udito": "udito", "vestibolare": "vestibolare", "muscsch": "contrazione_muscolare_scheletrica", "musccard": "muscolo_striato_cardiaco", "fusi": "fusi_neuromuscolari_e_propriocezione", "musclis": "muscolo_liscio", "cardio": "apparato_cardiovascolare", "respir": "apparato_respiratorio", "digest": "apparato_digerente", "endocr": "sistema_endocrino_e_surrene", "termo": "termoregolazione", "renale": "fisiologia_renale"};
+
+const COLOR_MAP = {verde:'#27ae60',blu:'#2980b9',viola:'#8e44ad',arancione:'#d35400',rosso:'#c0392b'};
+function getColor(el) {
+  for (const [c,h] of Object.entries(COLOR_MAP)) if (el.classList.contains(c)) return h;
+  return '#7f8c8d';
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function openPanel(nodeEl) {
+  const key = nodeEl.dataset.key;
+  if (!key || !CHAPTERS[key]) return;
+  const ch = CHAPTERS[key];
+  document.getElementById('panelColor').style.background = getColor(nodeEl);
+  document.getElementById('panelTitle').textContent = ch.title;
+  let html = '<div class="panel-label">Punti Chiave</div>';
+  html += `<div class="panel-count">${ch.pk.length} concetti</div>`;
+  html += '<ul class="pk-list">';
+  ch.pk.forEach(p => { html += `<li>${escHtml(p)}</li>`; });
+  html += '</ul>';
+  if (ch.sub && ch.sub.length) {
+    html += '<div class="panel-label" style="margin-top:20px">Sottosezioni</div>';
+    html += '<div class="sub-list">';
+    ch.sub.forEach(s => { html += `<span class="sub-chip">${escHtml(s)}</span>`; });
+    html += '</div>';
+  }
+  document.getElementById('panelBody').innerHTML = html;
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('sidePanel').classList.add('open');
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('sidePanel').classList.remove('open');
+  document.querySelectorAll('.node.selected').forEach(n => n.classList.remove('selected'));
+  document.querySelectorAll('.node.dimmed').forEach(n => n.classList.remove('dimmed'));
+  document.querySelectorAll('#svg-arrows line').forEach(l => l.removeAttribute('stroke-width') || l.setAttribute('stroke','#b2bec3'));
+}
+
+const EDGES = [
+  ['omeostasi','potenziale'],['omeostasi','trasduzione'],['omeostasi','sangue'],
+  ['potenziale','sinapsi'],['potenziale','muscsch'],['potenziale','musccard'],
+  ['trasduzione','sinapsi'],['trasduzione','musclis'],['trasduzione','endocr'],
+  ['sinapsi','muscsch'],['sinapsi','propsens'],['sinapsi','visivo'],['sinapsi','olfatto'],['sinapsi','gusto'],
+  ['sangue','cardio'],['sangue','respir'],
+  ['propsens','recettori'],['propsens','visivo'],['propsens','olfatto'],['propsens','gusto'],['propsens','udito'],['propsens','vestibolare'],
+  ['recettori','termo'],
+  ['musccard','cardio'],['musclis','cardio'],['musclis','digest'],['musclis','respir'],
+  ['fusi','muscsch'],
+  ['endocr','cardio'],['endocr','renale'],['endocr','termo'],['endocr','digest'],
+  ['renale','omeostasi'],
+];
+const BIDIR = new Set(['cardio--respir','cardio--renale','endocr--renale']);
+
+document.querySelectorAll('.node').forEach(node => {
+  node.addEventListener('click', e => {
+    e.stopPropagation();
+    const id = node.id.replace('n-','');
+    document.querySelectorAll('.node').forEach(n => n.classList.add('dimmed'));
+    document.querySelectorAll('.node.selected').forEach(n => n.classList.remove('selected'));
+    node.classList.remove('dimmed'); node.classList.add('selected');
+    const connected = new Set([id]);
+    document.querySelectorAll('#svg-arrows line').forEach(l => {
+      if (l.dataset.from===id||l.dataset.to===id) {
+        l.setAttribute('stroke','#2c3e50'); l.setAttribute('stroke-width','2.5');
+        connected.add(l.dataset.from); connected.add(l.dataset.to);
+      } else { l.setAttribute('stroke','#b2bec3'); l.setAttribute('stroke-width','1.5'); }
+    });
+    connected.forEach(cid => { const el=document.getElementById('n-'+cid); if(el) el.classList.remove('dimmed'); });
+    openPanel(node);
+  });
+});
+
+function handleCanvasClick(e) { if (!e.target.classList.contains('node')) closePanel(); }
+
+function showTab(id, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (id==='global') setTimeout(drawArrows, 80);
+  closePanel();
+}
+
+function getCenter(id) {
+  const el=document.getElementById('n-'+id), wrap=document.getElementById('canvas-global');
+  if(!el||!wrap) return null;
+  const r=el.getBoundingClientRect(), w=wrap.getBoundingClientRect();
+  return {x:r.left-w.left+r.width/2, y:r.top-w.top+r.height/2, w:r.width, h:r.height};
+}
+
+function clampEdge(f,t) {
+  const dx=t.x-f.x, dy=t.y-f.y, len=Math.sqrt(dx*dx+dy*dy);
+  if(!len) return {x1:f.x,y1:f.y,x2:t.x,y2:t.y};
+  const ux=dx/len, uy=dy/len;
+  const s1=Math.min(Math.abs(ux)>0.001?Math.abs(f.w/2/ux):1e9, Math.abs(uy)>0.001?Math.abs(f.h/2/uy):1e9);
+  const s2=Math.min(Math.abs(ux)>0.001?Math.abs(t.w/2/ux):1e9, Math.abs(uy)>0.001?Math.abs(t.h/2/uy):1e9);
+  return {x1:f.x+ux*s1*0.88, y1:f.y+uy*s1*0.88, x2:t.x-ux*s2*0.88, y2:t.y-uy*s2*0.88};
+}
+
+function drawArrows() {
+  const svg=document.getElementById('svg-arrows');
+  [...svg.querySelectorAll('line')].forEach(e=>e.remove());
+  EDGES.forEach(([a,b]) => {
+    const fa=getCenter(a), fb=getCenter(b); if(!fa||!fb) return;
+    const {x1,y1,x2,y2}=clampEdge(fa,fb);
+    const l=document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1',x1); l.setAttribute('y1',y1); l.setAttribute('x2',x2); l.setAttribute('y2',y2);
+    l.setAttribute('stroke','#b2bec3'); l.setAttribute('stroke-width','1.5');
+    l.setAttribute('marker-end','url(#arr)');
+    const k=a+'--'+b;
+    if(BIDIR.has(k)||BIDIR.has(b+'--'+a)) l.setAttribute('marker-start','url(#arr-rev)');
+    l.dataset.from=a; l.dataset.to=b;
+    svg.appendChild(l);
+  });
+}
+
+window.addEventListener('load',()=>setTimeout(drawArrows,120));
+window.addEventListener('resize',drawArrows);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePanel(); });
+</script>
+</body>
+</html>
