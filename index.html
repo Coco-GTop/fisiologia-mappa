@@ -82,13 +82,17 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 .prereq-meta .focus{color:#2980b9;}
 
 /* ── Vie Ormonali ── */
-.ormoni-wrap{padding:24px;max-width:1440px;margin:0 auto;}
-.ormoni-wrap h2{margin-bottom:6px;font-size:20px;color:#1a252f;}
-.ormoni-wrap .desc{font-size:13px;color:#7f8c8d;margin-bottom:18px;line-height:1.6;}
-.filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;align-items:center;}
-.filter-btn{padding:6px 14px;border-radius:20px;border:2px solid #d5d8dc;background:#fff;cursor:pointer;font-size:12px;font-weight:600;color:#5d6d7e;transition:background 150ms,border-color 150ms,color 150ms;white-space:nowrap;}
+.ormoni-wrap{padding:14px 20px 20px;max-width:1440px;margin:0 auto;}
+.ormoni-wrap h2{margin-bottom:3px;font-size:17px;color:#1a252f;display:inline;}
+.ormoni-wrap .desc{font-size:11.5px;color:#7f8c8d;margin-bottom:10px;line-height:1.5;margin-top:4px;}
+.filter-bar{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:4px;align-items:center;}
+.filter-group{display:flex;flex-wrap:wrap;gap:4px;align-items:center;}
+.filter-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#aab7b8;padding:0 4px;white-space:nowrap;}
+.filter-sep{width:1px;height:22px;background:#e0e0e0;margin:0 4px;flex-shrink:0;}
+.filter-btn{padding:4px 10px;border-radius:14px;border:1.5px solid #d5d8dc;background:#fff;cursor:pointer;font-size:11px;font-weight:600;color:#5d6d7e;transition:background 150ms,border-color 150ms,color 150ms;white-space:nowrap;}
 .filter-btn:hover{border-color:#95a5a6;color:#2c3e50;}
 .filter-btn.active{background:#2c3e50;border-color:#2c3e50;color:#fff;}
+/* sistema colors */
 .filter-btn[data-filter="ipotalamo"].active{background:var(--viola);border-color:var(--viola);}
 .filter-btn[data-filter="post"].active{background:var(--blu);border-color:var(--blu);}
 .filter-btn[data-filter="ant"].active{background:var(--blu-dark);border-color:var(--blu-dark);}
@@ -97,25 +101,45 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 .filter-btn[data-filter="surrene"].active{background:var(--arancione);border-color:var(--arancione);}
 .filter-btn[data-filter="pancreas"].active{background:var(--verde);border-color:var(--verde);}
 .filter-btn[data-filter="calcio"].active{background:#7f8c8d;border-color:#7f8c8d;}
-.search-ormoni{margin-left:auto;padding:7px 14px;border-radius:20px;border:2px solid #d5d8dc;font-size:12.5px;outline:none;min-width:200px;transition:border-color 150ms;}
+/* asse colors */
+.filter-btn[data-asse="HPA"].active{background:#c0392b;border-color:#c0392b;}
+.filter-btn[data-asse="HPT"].active{background:#27ae60;border-color:#27ae60;}
+.filter-btn[data-asse="HPG"].active{background:#e74c3c;border-color:#e74c3c;}
+.filter-btn[data-asse="GH"].active{background:#2980b9;border-color:#2980b9;}
+.filter-btn[data-asse="PRL"].active{background:#8e44ad;border-color:#8e44ad;}
+.filter-btn[data-asse="neuroi"].active{background:#16a085;border-color:#16a085;}
+.filter-btn[data-asse="RAAS"].active{background:#d35400;border-color:#d35400;}
+.filter-btn[data-asse="metabolico"].active{background:#1abc9c;border-color:#1abc9c;}
+.filter-btn[data-asse="calcioasse"].active{background:#7f8c8d;border-color:#7f8c8d;}
+.asse-chip{display:inline-block;padding:1px 6px;border-radius:8px;font-size:9.5px;font-weight:700;margin:1px 2px 1px 0;white-space:nowrap;vertical-align:middle;}
+.asse-HPA{background:#fdecea;color:#c0392b;border:1px solid #f5b7b1;}
+.asse-HPT{background:#d5f5e3;color:#1e8449;border:1px solid #a9dfbf;}
+.asse-HPG{background:#fadbd8;color:#922b21;border:1px solid #f1948a;}
+.asse-GH{background:#d6eaf8;color:#1a5276;border:1px solid #85c1e9;}
+.asse-PRL{background:#e8daef;color:#6c3483;border:1px solid #c39bd3;}
+.asse-neuroi{background:#d1f2eb;color:#0e6655;border:1px solid #76d7c4;}
+.asse-RAAS{background:#fde8d8;color:#a04000;border:1px solid #f0b27a;}
+.asse-metabolico{background:#d1f2ea;color:#0e6655;border:1px solid #76d7c4;}
+.asse-calcioasse{background:#eaecee;color:#515a5a;border:1px solid #b2bec3;}
+.search-ormoni{margin-left:auto;padding:5px 12px;border-radius:14px;border:1.5px solid #d5d8dc;font-size:12px;outline:none;min-width:180px;transition:border-color 150ms;}
 .search-ormoni:focus{border-color:#2980b9;}
 .table-scroll{overflow-x:auto;border-radius:10px;box-shadow:0 1px 8px rgba(0,0,0,.1);}
-.ormoni-table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;}
-.ormoni-table thead th{padding:11px 12px;text-align:left;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#fff;position:sticky;top:0;z-index:5;background:#2c3e50;}
+.ormoni-table{width:100%;border-collapse:collapse;font-size:11.5px;background:#fff;}
+.ormoni-table thead th{padding:9px 10px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#fff;position:sticky;top:0;z-index:5;background:#2c3e50;}
 .ormoni-table thead th:first-child{border-radius:10px 0 0 0;}
 .ormoni-table thead th:last-child{border-radius:0 10px 0 0;}
-.ormoni-table .sistema-row td{padding:8px 12px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#fff;border:none;}
+.ormoni-table .sistema-row td{padding:6px 10px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#fff;border:none;}
 .ormoni-table tbody tr.data-row{border-bottom:1px solid #f0f2f5;}
 @media (hover:hover) and (pointer:fine){
   .ormoni-table tbody tr.data-row:hover{transform:translateY(-1px);box-shadow:0 3px 12px rgba(0,0,0,.09);position:relative;z-index:1;}
 }
 .ormoni-table tbody tr.data-row{transition:transform 150ms cubic-bezier(0.23,1,0.32,1),box-shadow 150ms cubic-bezier(0.23,1,0.32,1);}
-.ormoni-table tbody td{padding:10px 12px;vertical-align:top;line-height:1.55;color:#2c3e50;border-bottom:1px solid #f0f2f5;}
+.ormoni-table tbody td{padding:7px 9px;vertical-align:top;line-height:1.5;color:#2c3e50;border-bottom:1px solid #f0f2f5;}
 .ormoni-table tbody tr.data-row:last-child td{border-bottom:none;}
 .ormoni-table tbody tr.row-hidden{display:none;}
-.cell-ormone{font-weight:700;font-size:13px;white-space:nowrap;}
-.cell-sigla{display:block;font-size:10.5px;font-weight:600;opacity:.7;margin-top:1px;}
-.tag{display:inline-block;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700;margin:1px 2px 1px 0;white-space:nowrap;}
+.cell-ormone{font-weight:700;font-size:12.5px;white-space:nowrap;}
+.cell-sigla{display:block;font-size:10px;font-weight:600;opacity:.7;margin-top:1px;}
+.tag{display:inline-block;padding:2px 6px;border-radius:10px;font-size:9.5px;font-weight:700;margin:1px 2px 1px 0;white-space:nowrap;}
 .tag-gs{background:#d6eaf8;color:#1a5276;}
 .tag-gi{background:#fadbd8;color:#922b21;}
 .tag-gq{background:#e8daef;color:#6c3483;}
@@ -123,7 +147,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 .tag-rtk{background:#fde8d8;color:#a04000;}
 .tag-ion{background:#fef9e7;color:#7d6608;border:1px solid #f9e79f;}
 .tag-jak{background:#e8f8f5;color:#0e6655;}
-.note-cell{font-size:11.5px;color:#555;font-style:italic;line-height:1.6;}
+.note-cell{font-size:11px;color:#555;font-style:italic;line-height:1.55;}
 .note-cell b{color:#2c3e50;font-style:normal;}
 @media (prefers-reduced-motion:reduce){
   .ormoni-table tbody tr.data-row{transition:opacity 100ms;}
@@ -584,16 +608,33 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <h2>Vie di Trasduzione Ormonale — Logica dei Meccanismi</h2>
 <p class="desc">La gerarchia è top-down: ipotalamo → ipofisi → organo bersaglio. Ogni via di trasduzione segue dalla natura chimica dell'ormone: <b>idrofilo (peptide/catecolamina) = recettore di membrana</b> (GPCR, RTK, JAK); <b>lipofilo (steroide/tiroideo) = recettore nucleare</b>. Capire questa regola elimina 80% della memorizzazione.</p>
 <div class="filter-bar">
-  <button class="filter-btn active" data-filter="all" onclick="filterOrmoni('all',this)">Tutti</button>
-  <button class="filter-btn" data-filter="ipotalamo" onclick="filterOrmoni('ipotalamo',this)">Ipotalamo</button>
-  <button class="filter-btn" data-filter="post" onclick="filterOrmoni('post',this)">Ipofisi Post.</button>
-  <button class="filter-btn" data-filter="ant" onclick="filterOrmoni('ant',this)">Ipofisi Ant.</button>
-  <button class="filter-btn" data-filter="tiroide" onclick="filterOrmoni('tiroide',this)">Tiroide</button>
-  <button class="filter-btn" data-filter="gonadi" onclick="filterOrmoni('gonadi',this)">Gonadi</button>
-  <button class="filter-btn" data-filter="surrene" onclick="filterOrmoni('surrene',this)">Surrene</button>
-  <button class="filter-btn" data-filter="pancreas" onclick="filterOrmoni('pancreas',this)">Pancreas</button>
-  <button class="filter-btn" data-filter="calcio" onclick="filterOrmoni('calcio',this)">Omeostasi Ca²⁺</button>
-  <input class="search-ormoni" type="search" placeholder="🔍 Cerca ormone, via, effetto…" oninput="searchOrmoni(this.value)">
+  <div class="filter-group">
+    <span class="filter-label">Sistema</span>
+    <button class="filter-btn active" data-filter="all" onclick="filterOrmoni('all',this)">Tutti</button>
+    <button class="filter-btn" data-filter="ipotalamo" onclick="filterOrmoni('ipotalamo',this)">Ipotalamo</button>
+    <button class="filter-btn" data-filter="post" onclick="filterOrmoni('post',this)">Ipofisi Post.</button>
+    <button class="filter-btn" data-filter="ant" onclick="filterOrmoni('ant',this)">Ipofisi Ant.</button>
+    <button class="filter-btn" data-filter="tiroide" onclick="filterOrmoni('tiroide',this)">Tiroide</button>
+    <button class="filter-btn" data-filter="gonadi" onclick="filterOrmoni('gonadi',this)">Gonadi</button>
+    <button class="filter-btn" data-filter="surrene" onclick="filterOrmoni('surrene',this)">Surrene</button>
+    <button class="filter-btn" data-filter="pancreas" onclick="filterOrmoni('pancreas',this)">Pancreas</button>
+    <button class="filter-btn" data-filter="calcio" onclick="filterOrmoni('calcio',this)">Ca²⁺</button>
+  </div>
+  <div class="filter-sep"></div>
+  <div class="filter-group">
+    <span class="filter-label">Asse</span>
+    <button class="filter-btn active" data-asse="all" onclick="filterAsse('all',this)">Tutti</button>
+    <button class="filter-btn" data-asse="HPA" onclick="filterAsse('HPA',this)">⚡ HPA</button>
+    <button class="filter-btn" data-asse="HPT" onclick="filterAsse('HPT',this)">🦋 HPT</button>
+    <button class="filter-btn" data-asse="HPG" onclick="filterAsse('HPG',this)">⚧ HPG</button>
+    <button class="filter-btn" data-asse="GH" onclick="filterAsse('GH',this)">📈 GH/IGF</button>
+    <button class="filter-btn" data-asse="PRL" onclick="filterAsse('PRL',this)">🤱 PRL</button>
+    <button class="filter-btn" data-asse="neuroi" onclick="filterAsse('neuroi',this)">💧 Neuroi.</button>
+    <button class="filter-btn" data-asse="RAAS" onclick="filterAsse('RAAS',this)">🧂 RAAS</button>
+    <button class="filter-btn" data-asse="metabolico" onclick="filterAsse('metabolico',this)">🍬 Metabolico</button>
+    <button class="filter-btn" data-asse="calcioasse" onclick="filterAsse('calcioasse',this)">🦴 Ca²⁺/PO₄³⁻</button>
+  </div>
+  <input class="search-ormoni" type="search" placeholder="🔍 Cerca…" oninput="searchOrmoni(this.value)">
 </div>
 <div class="table-scroll">
 <table class="ormoni-table" id="tabella-ormoni">
@@ -614,7 +655,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ IPOTALAMO ═══════════════════ -->
 <tr class="sistema-row" data-sistema="ipotalamo"><td colspan="8" style="background:var(--viola)">▲ IPOTALAMO — Ormoni di rilascio e inibizione verso l'ipofisi anteriore (via circolo portale)</td></tr>
 
-<tr class="data-row" data-sistema="ipotalamo" data-search="crh corticotropin releasing hormone cortisolo stress">
+<tr class="data-row" data-sistema="ipotalamo" data-asse="HPA" data-search="crh corticotropin releasing hormone cortisolo stress">
   <td><span class="cell-ormone">CRH</span><span class="cell-sigla">Corticotropin-Releasing Hormone</span></td>
   <td>Neuroni parvocellulari del <b>nucleo paraventricolare</b> (NPV) dell'ipotalamo</td>
   <td>Segnale di emergenza: avverte l'ipofisi che il corpo è sotto stress → mobilita cortisolo</td>
@@ -625,7 +666,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Logica:</b> CRH è lipofilo? No, è peptide → usa GPCR. Il feedback del cortisolo (steroide, entra nel nucleo) blocca la trascrizione del gene CRH — è un feedback "lento" (ore), non istantaneo.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ipotalamo" data-search="trh thyrotropin releasing tiroide tsh prolattina">
+<tr class="data-row" data-sistema="ipotalamo" data-asse="HPT PRL" data-search="trh thyrotropin releasing tiroide tsh prolattina">
   <td><span class="cell-ormone">TRH</span><span class="cell-sigla">Thyrotropin-Releasing Hormone</span></td>
   <td>Neuroni parvocellulari del <b>NPV</b>; è un tripeptide: pGlu-His-Pro-NH₂</td>
   <td>Attiva l'asse tiroideo per regolare metabolismo basale e sviluppo del SNC</td>
@@ -636,7 +677,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Logica Gq:</b> TRH ha bisogno di risposta rapida (cambio temperatura). Il Ca²⁺ intracellulare è un segnale rapido ed efficace per esocitosi granuli di TSH già preformati.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ipotalamo" data-search="ghrh growth hormone releasing somatotropina gh igf">
+<tr class="data-row" data-sistema="ipotalamo" data-asse="GH" data-search="ghrh growth hormone releasing somatotropina gh igf">
   <td><span class="cell-ormone">GHRH</span><span class="cell-sigla">Growth Hormone-Releasing Hormone</span></td>
   <td>Neuroni del <b>nucleo arcuato</b> ipotalamico; peptide 44 aa</td>
   <td>Attiva la secrezione pulsatile di GH, necessaria per crescita e metabolismo</td>
@@ -647,7 +688,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Logica pulsatilità:</b> GHRH e SST si alternano (GHRH alto → SST basso e viceversa) → picchi di GH ogni 3-5 h. La pulsatilità è fisiologicamente indispensabile: GH continuo causa desensibilizzazione recettoriale.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ipotalamo" data-search="sst somatostatina ghrh inibizione gh tsh insulina glucagone">
+<tr class="data-row" data-sistema="ipotalamo" data-asse="GH HPT metabolico" data-search="sst somatostatina ghrh inibizione gh tsh insulina glucagone">
   <td><span class="cell-ormone">SST</span><span class="cell-sigla">Somatostatina (SRIF)</span></td>
   <td>Neuroni del <b>nucleo periventricolare</b> ipotalamico; cellule D del pancreas; tratto GI; peptide 14/28 aa</td>
   <td>Freno generale su secrezioni: bilancia l'azione di GHRH, TRH, insulina, glucagone</td>
@@ -658,7 +699,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Logica Gi:</b> SST deve spegnere secrezioni diverse → via Gi ubiquitaria (↓cAMP) + iperpolarizzazione = "freno universale". Usato clinicamente (analogo: octreotide) per acromegalia, tumori carcinoidi.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ipotalamo" data-search="prh prolactin releasing trh vip ossitocina lattazione">
+<tr class="data-row" data-sistema="ipotalamo" data-asse="PRL" data-search="prh prolactin releasing trh vip ossitocina lattazione">
   <td><span class="cell-ormone">PRH</span><span class="cell-sigla">Prolactin-Releasing Factor (fattori multipli)</span></td>
   <td><b>NPV e nucleo sopraottico</b>: principalmente TRH; anche VIP, ossitocina, peptide PHI</td>
   <td>Non esiste un unico PRH dedicato — la PRL è "liberata per default" quando la dopamina (PIH) cessa. TRH è il principale stimolatore identificato</td>
@@ -669,7 +710,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Concetto chiave:</b> la PRL è l'unico ormone ipofisario con controllo inibitorio dominante. Se si taglia il peduncolo ipofisario (interruzione del circolo portale) → ↑PRL (non ↓). Questo la distingue da tutti gli altri.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ipotalamo" data-search="pih dopamina prolactin inhibiting iperprolattinemia d2">
+<tr class="data-row" data-sistema="ipotalamo" data-asse="PRL" data-search="pih dopamina prolactin inhibiting iperprolattinemia d2">
   <td><span class="cell-ormone">PIH</span><span class="cell-sigla">Prolactin-Inhibiting Hormone = Dopamina</span></td>
   <td>Neuroni <b>tuberoinfundibolari</b> (TIDA neurons) del nucleo arcuato → assoni terminano nell'eminenza mediana → circolo portale → adenoipofisi</td>
   <td>Controllo tonico inibitorio sulla PRL: la inibisce continuamente, tranne durante allattamento e gravidanza</td>
@@ -683,7 +724,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ IPOFISI POSTERIORE ═══════════════════ -->
 <tr class="sistema-row" data-sistema="post"><td colspan="8" style="background:var(--blu)">▲ IPOFISI POSTERIORE (Neuroipofisi) — Ormoni sintetizzati nell'ipotalamo, trasportati per via assonale, rilasciati dalla neuroipofisi</td></tr>
 
-<tr class="data-row" data-sistema="post" data-search="ossitocina parto allattamento miometrio bonding">
+<tr class="data-row" data-sistema="post" data-asse="neuroi" data-search="ossitocina parto allattamento miometrio bonding">
   <td><span class="cell-ormone">OSSITOCINA</span><span class="cell-sigla">OXT — nonapeptide</span></td>
   <td>Neuroni <b>magnocellulari</b> del <b>nucleo paraventricolare</b> (prevalente) e sopraottico ipotalamici → neuroipofisi</td>
   <td>Coordina le contrazioni del parto (feedback positivo) e il riflesso di eiezione del latte; favorisce bonding materno-neonatale</td>
@@ -694,7 +735,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Paradosso del feedback positivo:</b> quasi tutti i sistemi fisiologici usano feedback negativo. Il parto usa feedback positivo perché richiede escalation rapida fino alla risoluzione (nascita). Sostenibile solo per eventi a termine.</td>
 </tr>
 
-<tr class="data-row" data-sistema="post" data-search="vasopressina adh antidiuretic osmolalita volemia aquaporin2 aqp2 v1 v2">
+<tr class="data-row" data-sistema="post" data-asse="neuroi RAAS" data-search="vasopressina adh antidiuretic osmolalita volemia aquaporin2 aqp2 v1 v2">
   <td><span class="cell-ormone">VASOPRESSINA</span><span class="cell-sigla">ADH — Antidiuretic Hormone; nonapeptide</span></td>
   <td>Neuroni <b>magnocellulari</b> del <b>nucleo sopraottico</b> (prevalente) e paraventricolare → neuroipofisi</td>
   <td>Regola l'osmolalità plasmatica (sensore principale) e, in emergenza, sostiene la pressione arteriosa</td>
@@ -708,7 +749,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ IPOFISI ANTERIORE ═══════════════════ -->
 <tr class="sistema-row" data-sistema="ant"><td colspan="8" style="background:var(--blu-dark)">▲ IPOFISI ANTERIORE (Adenoipofisi) — Cellule endocrine che rispondono agli ormoni ipotalamici via circolo portale</td></tr>
 
-<tr class="data-row" data-sistema="ant" data-search="acth pomc corticotropina cortisolo surrene melanocortina beta endorfina">
+<tr class="data-row" data-sistema="ant" data-asse="HPA" data-search="acth pomc corticotropina cortisolo surrene melanocortina beta endorfina">
   <td><span class="cell-ormone">ACTH</span><span class="cell-sigla">Adrenocorticotropic Hormone (da POMC)</span></td>
   <td>Cellule <b>corticotrope</b> dell'adenoipofisi. Deriva dal precursore <b>POMC</b> (Pro-Opio-Melano-Cortina) tagliato dalla proteasi PC1 in ACTH + β-LPH; PC2 taglia β-LPH in β-endorfina + MSH</td>
   <td>Traduce il segnale di stress (CRH) in attivazione della corteccia surrenale → cortisolo</td>
@@ -719,7 +760,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>POMC è il concetto chiave:</b> un unico precursore viene tagliato diversamente in tessuti diversi. In ipofisi → ACTH. In pars intermedia → α-MSH (pigmentazione). In neuroni → β-endorfina (analgesia). Stessa molecola, tre funzioni diverse per taglio diverso.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ant" data-search="tsh tireotropina tiroide t3 t4 tshr camp">
+<tr class="data-row" data-sistema="ant" data-asse="HPT" data-search="tsh tireotropina tiroide t3 t4 tshr camp">
   <td><span class="cell-ormone">TSH</span><span class="cell-sigla">Thyroid-Stimulating Hormone (Tireotropina)</span></td>
   <td>Cellule <b>tireotrope</b> dell'adenoipofisi; glicoproteina eterodimerica (subunità α comune + β specifica)</td>
   <td>Controlla la sintesi e il rilascio degli ormoni tiroidei T3/T4 e il trofismo della tiroide</td>
@@ -730,7 +771,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Logica del feedback:</b> T3 (non T4) è la forma attiva che inibisce TSH in ipofisi e TRH in ipotalamo. L'ipotiroidismo → ↑TSH (feedback perso) → è il marker diagnostico per eccellenza. Capire questo rende ovvio il dosaggio del TSH nella pratica clinica.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ant" data-search="gh somatotropina igf1 crescita ghrh sst jak stat5">
+<tr class="data-row" data-sistema="ant" data-asse="GH" data-search="gh somatotropina igf1 crescita ghrh sst jak stat5">
   <td><span class="cell-ormone">GH</span><span class="cell-sigla">Growth Hormone (Somatotropina)</span></td>
   <td>Cellule <b>somatotrope</b> (50% dell'adenoipofisi); proteina a singola catena 191 aa</td>
   <td>Promuove crescita lineare (via IGF-1) e regola metabolismo intermediario (anabolismo proteico, lipolisi, anti-insulinico)</td>
@@ -741,7 +782,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>JAK-STAT:</b> GH non usa GPCR perché deve trasdurre un segnale di crescita lento e genomico. JAK2-STAT5b è la via delle citochine di crescita. Il GH-R è strutturalmente simile al recettore dell'eritropoietina — entrambi segnalano crescita cellulare.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ant" data-search="prolattina prl lattazione allattamento dopamina d2 jak stat5 suzione">
+<tr class="data-row" data-sistema="ant" data-asse="PRL" data-search="prolattina prl lattazione allattamento dopamina d2 jak stat5 suzione">
   <td><span class="cell-ormone">PRL</span><span class="cell-sigla">Prolattina</span></td>
   <td>Cellule <b>lattotrope</b> dell'adenoipofisi (~20% delle cellule); strutturalmente simile a GH e PL (placental lactogen)</td>
   <td>Induce e mantiene la produzione di latte (lattogenesi) durante e dopo la gravidanza; effetti su sistema immunitario e riproduzione</td>
@@ -752,7 +793,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Controllo dominante inibitorio:</b> tutti gli altri ormoni ipofisari hanno controllo stimolatorio dominante dall'ipotalamo. La PRL è l'eccezione: se si interrompe il circolo portale, sale. Usa la stessa via di GH (JAK2-STAT5) — stessa logica, ormone diverso.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ant" data-search="lh luteinizzante gnrh testosterone ovulazione leydig teca camp">
+<tr class="data-row" data-sistema="ant" data-asse="HPG" data-search="lh luteinizzante gnrh testosterone ovulazione leydig teca camp">
   <td><span class="cell-ormone">LH</span><span class="cell-sigla">Luteinizing Hormone (Lutropina)</span></td>
   <td>Cellule <b>gonadotrope</b> dell'adenoipofisi; glicoproteina eterodimerica (subunità α comune + β LH-specifica)</td>
   <td>Induce ovulazione nella donna e stimola la sintesi di testosterone nelle cellule di Leydig nell'uomo</td>
@@ -763,7 +804,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Paradosso del feedback positivo:</b> durante il ciclo, l'estradiolo alto (pre-ovulatorio) causa un surge di LH invece di inibirlo. È uno dei rari esempi di feedback positivo nell'endocrinologia riproduttiva — segnale per l'ovulazione.</td>
 </tr>
 
-<tr class="data-row" data-sistema="ant" data-search="fsh follicolo stimolante sertoli granulosa aromatasi spermatogenesi estrogeni">
+<tr class="data-row" data-sistema="ant" data-asse="HPG" data-search="fsh follicolo stimolante sertoli granulosa aromatasi spermatogenesi estrogeni">
   <td><span class="cell-ormone">FSH</span><span class="cell-sigla">Follicle-Stimulating Hormone (Follitropina)</span></td>
   <td>Cellule <b>gonadotrope</b> dell'adenoipofisi; glicoproteina (α comune + β FSH-specifica). Stessa cellula che produce LH</td>
   <td>Stimola maturazione follicolare (donna) e spermatogenesi (uomo); induce aromatasi → sintesi estrogeni</td>
@@ -777,7 +818,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ TIROIDE ═══════════════════ -->
 <tr class="sistema-row" data-sistema="tiroide"><td colspan="8" style="background:var(--verde-dark);color:#fff">▲ TIROIDE — Ormoni tiroidei: biosintesi (MIT/DIT), conversione periferica (T4→T3, rT3), recettore nucleare</td></tr>
 
-<tr class="data-row" data-sistema="tiroide" data-search="t3 t4 tiroide triiodotironina tiroxina deiodinasi mit dit reverse rt3 conversione nucleare bmr">
+<tr class="data-row" data-sistema="tiroide" data-asse="HPT" data-search="t3 t4 tiroide triiodotironina tiroxina deiodinasi mit dit reverse rt3 conversione nucleare bmr">
   <td><span class="cell-ormone">T3 / T4</span><span class="cell-sigla">Triiodotironina / Tiroxina<br>+ conversione periferica + biosintesi</span></td>
   <td>Cellule <b>follicolari</b> (tireociti) della tiroide. T4 è il prodotto principale (~90%). T3 attivo prodotto principalmente per conversione periferica (80% del T3 circolante)</td>
   <td>Regolatori del metabolismo basale, sviluppo SNC (fetale/neonatale), termogenesi, funzione cardiovascolare, crescita ossea</td>
@@ -791,7 +832,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ GONADI ═══════════════════ -->
 <tr class="sistema-row" data-sistema="gonadi"><td colspan="8" style="background:var(--rosso)">▲ GONADI — Steroidi sessuali: tutti lipofili → recettori nucleari → risposta genomica lenta</td></tr>
 
-<tr class="data-row" data-sistema="gonadi" data-search="testosterone androgeni leydig spermatogenesi ar nucleare steroide star">
+<tr class="data-row" data-sistema="gonadi" data-asse="HPG" data-search="testosterone androgeni leydig spermatogenesi ar nucleare steroide star">
   <td><span class="cell-ormone">TESTOSTERONE</span><span class="cell-sigla">T — androgeno principale</span></td>
   <td>Cellule di <b>Leydig</b> (testicolo, principale). Piccole quantità: zona reticolare surrene (DHEA → T), cellule della teca (donna, precursore)</td>
   <td>Caratteri sessuali maschili primari e secondari, spermatogenesi, eritropoiesi, anabolismo muscolare</td>
@@ -802,7 +843,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>StAR è il vero regolatore acuto:</b> la sintesi di steroidi non è limitata dagli enzimi ma dal trasporto del colesterolo nel mitocondrio (StAR). LH → ↑StAR → più colesterolo → più steroidi. Il resto della catena enzimatica è quasi sempre in eccesso.</td>
 </tr>
 
-<tr class="data-row" data-sistema="gonadi" data-search="dht diidrotestosterone 5alfa reduttasi prostata capelli ar affinita paracrino">
+<tr class="data-row" data-sistema="gonadi" data-asse="HPG" data-search="dht diidrotestosterone 5alfa reduttasi prostata capelli ar affinita paracrino">
   <td><span class="cell-ormone">DHT</span><span class="cell-sigla">Diidrotestosterone — non secreto, prodotto localmente</span></td>
   <td>Non è secreto dalle gonadi: prodotto <b>localmente per conversione da testosterone</b> da <b>5α-reduttasi</b> (tipo 1: cute, fegato; tipo 2: prostata, cute genitale, follicolo pilifero)</td>
   <td>Ormone locale (paracrino/autocrino) ad alta potenza: stesso AR del testosterone ma affinità 5-10× maggiore e complesso AR-DHT più stabile</td>
@@ -813,7 +854,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Perché esiste DHT:</b> alcuni tessuti richiedono un segnale androgenico più potente e prolungato. La 5α-riduzione è irreversibile e non aromatizzabile → segnale "tutto androginico" senza possibilità di conversione estrogenica. Elegante soluzione per tessuti che non vogliono estrogeni.</td>
 </tr>
 
-<tr class="data-row" data-sistema="gonadi" data-search="estradiolo e2 estrogeni granulosa aromatasi er nucleare utero seno osso ciclo">
+<tr class="data-row" data-sistema="gonadi" data-asse="HPG" data-search="estradiolo e2 estrogeni granulosa aromatasi er nucleare utero seno osso ciclo">
   <td><span class="cell-ormone">ESTRADIOLO</span><span class="cell-sigla">E2 — estrogeno principale in età fertile</span></td>
   <td>Cellule della <b>granulosa</b> (ovaio, principale) — aromatasi converte androstenedione (da teca, via LH) → E2. Placenta (gravidanza). Tessuto adiposo (in menopausa, conversione periferica). Piccole quantità nelle cellule di Leydig</td>
   <td>Sviluppo caratteri sessuali femminili, regolazione ciclo mestruale, protezione cardiovascolare e ossea, sviluppo seno, controllo feedback su asse HPG</td>
@@ -824,7 +865,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>ERα vs ERβ:</b> opposti in alcuni tessuti. ERα in seno → proliferazione (bersaglio tamoxifene). ERβ in ovaio/vasi → effetti diversi o addirittura antagonisti. La selettività tissutale non dipende dall'ormone ma dall'isoforma recettoriale espressa.</td>
 </tr>
 
-<tr class="data-row" data-sistema="gonadi" data-search="progesterone corpo luteo gravidanza pr nucleare endometrio temperatura basale">
+<tr class="data-row" data-sistema="gonadi" data-asse="HPG" data-search="progesterone corpo luteo gravidanza pr nucleare endometrio temperatura basale">
   <td><span class="cell-ormone">PROGESTERONE</span><span class="cell-sigla">P4 — ormone della fase luteale e gravidanza</span></td>
   <td>Cellule <b>luteiniche della granulosa</b> (corpo luteo, dopo ovulazione, sotto stimolo LH). Placenta (dal 1° trimestre, sostituisce il corpo luteo). Piccole quantità: zona reticolare surrene, testes</td>
   <td>Prepara l'endometrio per l'impianto embrionale, mantiene la gravidanza, riduce contrattilità uterina</td>
@@ -838,7 +879,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ SURRENE ═══════════════════ -->
 <tr class="sistema-row" data-sistema="surrene"><td colspan="8" style="background:var(--arancione)">▲ SURRENE — Corteccia (3 zone: glomerulosa → aldosterone; fasciculata → cortisolo; reticolare → DHEA) + Midollare (catecolamine)</td></tr>
 
-<tr class="data-row" data-sistema="surrene" data-search="cortisolo glucocorticoide gr nucleare stress gluconeogenesi immunosoppressione hpa acth">
+<tr class="data-row" data-sistema="surrene" data-asse="HPA" data-search="cortisolo glucocorticoide gr nucleare stress gluconeogenesi immunosoppressione hpa acth">
   <td><span class="cell-ormone">CORTISOLO</span><span class="cell-sigla">Idrocortisone — glucocorticoide principale</span></td>
   <td>Cellule della <b>zona fasciculata</b> della corteccia surrenale (strato medio, 75% del volume corticale)</td>
   <td>Ormone dello stress cronico: mobilizza substrati energetici, sopprime risposta immune, potenzia l'effetto delle catecolamine (risposta fight-or-flight prolungata)</td>
@@ -849,7 +890,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>Cortisolo vs aldosterone — stesso recettore MR:</b> il cortisolo ha affinità per il recettore mineralcorticoide (MR) come l'aldosterone, ma nei tessuti renali l'enzima 11β-HSD2 converte il cortisolo in cortisone inattivo → protegge MR dall'overflow cortisolico. Liquirizia inibisce 11β-HSD2 → pseudoiperaldosteronismo.</td>
 </tr>
 
-<tr class="data-row" data-sistema="surrene" data-search="aldosterone mineralcorticoide raas angiotensina potassio renale enac sodio mr 11bhsd2">
+<tr class="data-row" data-sistema="surrene" data-asse="RAAS" data-search="aldosterone mineralcorticoide raas angiotensina potassio renale enac sodio mr 11bhsd2">
   <td><span class="cell-ormone">ALDOSTERONE</span><span class="cell-sigla">Mineralcorticoide principale</span></td>
   <td>Cellule della <b>zona glomerulosa</b> (strato più esterno della corteccia surrenale). Solo questo strato esprime aldosterone sintasi (CYP11B2)</td>
   <td>Regola la volemia e la pressione arteriosa a lungo termine tramite ritenzione di Na⁺ e acqua nel tubulo distale renale</td>
@@ -863,7 +904,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ PANCREAS ═══════════════════ -->
 <tr class="sistema-row" data-sistema="pancreas"><td colspan="8" style="background:var(--verde);color:#1e8449">▲ PANCREAS ENDOCRINO — Isole di Langerhans: cellule α (glucagone), β (insulina), δ (SST), PP (polipeptide pancreatico)</td></tr>
 
-<tr class="data-row" data-sistema="pancreas" data-search="insulina katp glut4 akt pi3k irs rtk glucosio cellule beta pancreas anabolismo">
+<tr class="data-row" data-sistema="pancreas" data-asse="metabolico" data-search="insulina katp glut4 akt pi3k irs rtk glucosio cellule beta pancreas anabolismo">
   <td><span class="cell-ormone">INSULINA</span><span class="cell-sigla">Peptide 51 aa (catene A+B); proinsuline → insulina + C-peptide</span></td>
   <td>Cellule <b>β delle isole di Langerhans</b> (pancreas endocrino, ~60-80% delle isole)</td>
   <td>Ormone dell'abbondanza: segnala ai tessuti di captare e immagazzinare glucosio quando il pasto ha appena fornito carburante</td>
@@ -874,7 +915,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <td class="note-cell"><b>K_ATP è il sensore metabolico:</b> non serve un recettore per il glucosio — è l'ATP prodotto dalla sua ossidazione che chiude il canale K⁺. La depolarizzazione risultante apre i Cav esattamente come in un neurone. La cellula β "elettrica" è funzionalmente simile a un neurone sensoriale che misura ATP invece di luce o suono.</td>
 </tr>
 
-<tr class="data-row" data-sistema="pancreas" data-search="glucagone cellule alfa digiuno gs camp glicogenolisi gluconeogenesi chetogenesi lipolisi">
+<tr class="data-row" data-sistema="pancreas" data-asse="metabolico" data-search="glucagone cellule alfa digiuno gs camp glicogenolisi gluconeogenesi chetogenesi lipolisi">
   <td><span class="cell-ormone">GLUCAGONE</span><span class="cell-sigla">Peptide 29 aa; da proglucagone (anche GLP-1/GLP-2 nell'intestino)</span></td>
   <td>Cellule <b>α delle isole di Langerhans</b> (~15-20% delle isole). Stesso precursore proglucagone: in pancreas → glucagone (PC2); in intestino L-cells → GLP-1/GLP-2 (PC1)</td>
   <td>Ormone del digiuno: segnala al fegato di produrre glucosio quando la glicemia scende, mantenendo il cervello alimentato</td>
@@ -888,37 +929,49 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 <!-- ═══════════════════ OMEOSTASI CALCIO ═══════════════════ -->
 <tr class="sistema-row" data-sistema="calcio"><td colspan="8" style="background:#7f8c8d">▲ OMEOSTASI DEL CALCIO — PTH, Vitamina D, Calcitonina: tre ormoni, tre organi (osso, rene, intestino), un obiettivo (Ca²⁺ 1.0–1.3 mM)</td></tr>
 
-<tr class="data-row" data-sistema="calcio" data-search="pth paratormone calcio paratiroide casr rankl vitamina d rene osso gs camp">
+<tr class="data-row" data-sistema="calcio" data-asse="calcioasse" data-search="pth paratormone calcio paratiroide casr rankl vitamina d rene osso gs camp fosfato po4">
   <td><span class="cell-ormone">PARATORMONE</span><span class="cell-sigla">PTH — peptide 84 aa (PTH 1-34 è la porzione attiva)</span></td>
   <td>Cellule <b>principali (chief cells)</b> delle 4 ghiandole paratiroidi (posteriori alla tiroide)</td>
   <td>Sensore e correttore della calcemia: quando Ca²⁺ scende, mobilizza calcio da osso e rene in minuti-ore</td>
   <td><b>↓Ca²⁺ plasmatico</b> (sensore: CaSR — Calcium-Sensing Receptor — su cellule principali): CaSR è GPCR-Gq/Gi → quando Ca²⁺ alto → ↑IP₃/Ca²⁺ intracellulare → inibisce PTH. Quando Ca²⁺ basso → CaSR poco attivato → disinibizione → ↑PTH. Stimolato anche da ↓Mg²⁺, ↓calcitriolo</td>
-  <td><span class="tag tag-gs">GPCR-Gs</span> PTH1-R su osteoblasti e tubulo renale → ↑cAMP → PKA:<br><b>Rene:</b> tubulo prossimale → ↑CYP27B1 (1α-idrossilasi) → ↑calcitriolo; tubulo distale → ↑riassorbimento Ca²⁺ (TRPV5), ↑escrezione fosfato (↓NaPi)<br><b>Osso:</b> osteoblasti → ↑RANKL (ligando per osteoclasti), ↓OPG → ↑osteoclastogenesi → riassorbimento osseo → ↑Ca²⁺ e ↑fosfato in circolo</td>
-  <td>↑Ca²⁺ plasmatico (rapido: osso; lento: intestino via calcitriolo). ↓Fosfato plasmatico (↑escrezione renale). ↑Calcitriolo (attivando 1α-idrossilasi renale). ↑Riassorbimento Ca²⁺ renale (tubulo distale)</td>
-  <td><b>Stimola:</b> calcitriolo (↑CYP27B1), riassorbimento Ca²⁺ renale, RANKL osseo (↑osteoclasti)<br><b>Inibisce:</b> escrezione Ca²⁺ renale, fosfato (↑fosfaturia)<br><b>↑PTH cronico (iperparatiroidismo):</b> osteoporosi; acuto intermittente → anabolico (teriparatide)</td>
-  <td class="note-cell"><b>PTH usa RANKL indirettamente:</b> gli osteoclasti non hanno PTH1-R! Il PTH agisce sugli osteoblasti che producono RANKL → stimola differenziazione osteoclasti. PTH intermittente (es. teriparatide) → prevale effetto anabolico (osteoblasti). PTH continuo → prevale catabolismo osseo. La stessa molecola, effetti opposti per frequenza di esposizione.</td>
+  <td><span class="tag tag-gs">GPCR-Gs</span> PTH1-R su osteoblasti e tubulo renale → ↑cAMP → PKA:<br><b>Ca²⁺ — Rene:</b> tubulo distale → ↑TRPV5 (canale Ca²⁺) → ↑riassorbimento Ca²⁺<br><b>PO₄³⁻ — Rene:</b> tubulo prossimale → ↓NaPi-IIa/IIc (cotrasportatori Na⁺/fosfato) → ↑fosfaturia → ↓PO₄³⁻ plasmatico; ↑CYP27B1 → ↑calcitriolo (che poi ↑assorbimento PO₄³⁻ intestinale — effetto compensatorio)<br><b>Osso:</b> osteoblasti → ↑RANKL, ↓OPG → ↑osteoclasti → ↑rilascio Ca²⁺ e PO₄³⁻ dall'osso (effetto netto: ↑PO₄³⁻ rilasciato ma escreto dal rene)</td>
+  <td><b>Ca²⁺:</b> ↑Ca²⁺ plasmatico (osso rapido + rene + intestino lento via calcitriolo)<br><b>PO₄³⁻:</b> ↓PO₄³⁻ plasmatico (fosfaturia renale via ↓NaPi-IIa/IIc nonostante ↑rilascio osseo). Bilancio netto: Ca²⁺ ↑, PO₄³⁻ ↓ — le due azioni sono dissociate<br>↑Calcitriolo (via ↑CYP27B1 renale)</td>
+  <td><b>Ca²⁺ — Stimola:</b> ↑TRPV5 renale, ↑RANKL osseo, ↑CYP27B1 → ↑calcitriolo → ↑TRPV6 intestinale<br><b>PO₄³⁻ — Inibisce:</b> ↓NaPi-IIa/IIc → ↑fosfaturia (PTH è il principale ormone ipofosforemizzante)<br><b>Stimola FGF-23</b> (feedback indiretto: ↑Ca²⁺ → ↑FGF-23 da osteociti → frena calcitriolo e ↑fosfaturia)<br><b>↑PTH cronico:</b> osteoporosi; acuto intermittente → anabolico (teriparatide)</td>
+  <td class="note-cell"><b>Dissociazione Ca²⁺/PO₄³⁻:</b> PTH ↑Ca²⁺ E ↓PO₄³⁻ — apparentemente contradditorio (l'osso rilascia entrambi), ma il rene scarica selettivamente il fosfato (↓NaPi) e trattiene il calcio (↑TRPV5). Questo perché Ca²⁺ e PO₄³⁻ non devono precipitare insieme nel sangue (prodotto di solubilità). PTH usa il rene come smistatore selettivo.</td>
 </tr>
 
-<tr class="data-row" data-sistema="calcio" data-search="vitamina d calcitriolo calcidiolo vdr cyp27b1 cute fegato rene intestino trpv6 calbindina">
+<tr class="data-row" data-sistema="calcio" data-asse="calcioasse" data-search="vitamina d calcitriolo calcidiolo vdr cyp27b1 cute fegato rene intestino trpv6 calbindina fosfato po4 fgf23">
   <td><span class="cell-ormone">VITAMINA D</span><span class="cell-sigla">Calcitriolo (1,25-(OH)₂-D₃) — forma attiva<br>Calcidiolo (25-OH-D₃) — forma circolante</span></td>
   <td><b>Biosintesi a 3 stadi:</b><br>1) <b>Cute:</b> UV-B → 7-deidocolesterolo (provit D3) → previtamina D3 → vitamina D3 (colecalciferolo, reazione fotolitica, non enzimatica)<br>2) <b>Fegato:</b> CYP2R1/CYP27A1 → 25-OH-D3 (calcidiolo, t½ ~3 settimane, forma di riserva)<br>3) <b>Rene:</b> CYP27B1 (1α-idrossilasi) → 1,25-(OH)₂-D3 (calcitriolo, FORMA ATTIVA). Inattivazione: CYP24A1 → 24,25-(OH)₂-D3 (inattivo)</td>
   <td>Ottimizza l'assorbimento intestinale di Ca²⁺ e fosfato; collabora con PTH nell'omeostasi calcica; effetti non-classici su sistema immunitario, muscolo, cellule tumorali</td>
   <td><b>↑PTH</b> → ↑CYP27B1 renale (principale regolatore). ↓Ca²⁺ → ↑PTH → ↑calcitriolo. ↓Fosfato → diretta ↑CYP27B1. Inibito da: calcitriolo stesso (feedback → ↑CYP24A1), ↑FGF-23 (osso → rene → ↓CYP27B1, ↑CYP24A1)</td>
   <td><span class="tag tag-nuc">Recettore Nucleare (VDR)</span> Vitamin D Receptor — eterodimerizza con RXR → legame a VDRE nel DNA → risposta genomica lenta (ore-giorni).<br><br>Anche segnalazione rapida non-genomica: VDR di membrana → PKC/Ca²⁺ (intestino, rapida apertura canali Ca²⁺)</td>
-  <td><b>Intestino:</b> ↑TRPV6 (canale Ca²⁺ apicale), ↑calbindina (proteina trasportatrice), ↑PMCA (pompa Ca²⁺ basolaterale) → ↑assorbimento Ca²⁺ e fosfato (principale effetto). <b>Rene:</b> ↑riassorbimento Ca²⁺ (TRPV5). <b>Osso:</b> ↑mineralizzazione (fornisce Ca²⁺) ma anche ↑RANKL (a dosi alte). <b>Immuno:</b> ↑difese innate, regola linfociti T</td>
-  <td><b>Stimola:</b> assorbimento Ca²⁺ intestinale, mineralizzazione ossea, riassorbimento Ca²⁺ renale<br><b>Inibisce:</b> PTH (feedback), CYP27B1 (auto-inibizione via ↑CYP24A1)<br><b>FGF-23</b> (ormone osseo) inibisce CYP27B1 → frena calcitriolo quando fosfato alto</td>
-  <td class="note-cell"><b>La logica del processo a 3 stadi:</b> ogni step ha un regolatore diverso. Cute (UV) → può essere limitante in inverno/latitudini alte. Fegato (25-OH) → quasi saturabile, riflette gli apporti. Rene (1α-idrossilasi) → è il vero punto di controllo regolato da PTH e FGF-23. Misurare il 25-OH (calcidiolo) → stato riserve. Misurare il 1,25-OH₂ → funzione attiva.</td>
+  <td><b>Ca²⁺ — Intestino:</b> ↑TRPV6 (canale Ca²⁺ apicale), ↑calbindina D9k (carrier), ↑PMCA1b (pompa basolaterale) → ↑assorbimento Ca²⁺. <b>Rene:</b> ↑TRPV5 → ↑riassorbimento Ca²⁺ tubulo distale.<br><b>PO₄³⁻ — Intestino:</b> ↑NaPi-IIb (cotrasportatore Na⁺/fosfato apicale) → ↑assorbimento PO₄³⁻. <b>Rene:</b> ↑NaPi-IIa/IIc → ↑riassorbimento PO₄³⁻ (OPPOSTO a PTH — calcitriolo trattiene il fosfato!)<br><b>Osso:</b> ↑mineralizzazione (usa Ca²⁺ + PO₄³⁻), ↑RANKL (a dosi farmacologiche alte). <b>Immuno:</b> ↑cathelicidina (difesa innata), ↓IL-17, regola linfociti T</td>
+  <td><b>Ca²⁺ — Stimola:</b> TRPV6 intestinale, TRPV5 renale, mineralizzazione ossea<br><b>PO₄³⁻ — Stimola:</b> NaPi-IIb intestinale, NaPi-IIa/IIc renale → ↑assorbimento PO₄³⁻ (contrario a PTH!)<br><b>Inibisce:</b> PTH (feedback lungo), CYP27B1 (auto-inibizione via ↑CYP24A1)<br><b>FGF-23</b> (risposta a ↑PO₄³⁻ o ↑calcitriolo da osteociti) → ↓CYP27B1 + ↑CYP24A1 → ↓calcitriolo (freno di sicurezza)</td>
+  <td class="note-cell"><b>PTH vs calcitriolo su PO₄³⁻ — effetti opposti:</b> PTH → ↓riassorbimento renale PO₄³⁻ (↓NaPi-IIa/IIc) → ↓PO₄³⁻ plasma. Calcitriolo → ↑riassorbimento renale PO₄³⁻ (↑NaPi-IIa/IIc) + ↑assorbimento intestinale (↑NaPi-IIb) → ↑PO₄³⁻ plasma. I due ormoni si bilanciano: PTH comanda il rene per scaricare fosfato, calcitriolo lo ricarica per la mineralizzazione. FGF-23 chiude il loop: quando PO₄³⁻ sale troppo, gli osteociti lo secernono → frena calcitriolo → si riduce l'assorbimento.</td>
 </tr>
 
-<tr class="data-row" data-sistema="calcio" data-search="calcitonina cellule c tiroide osteoclasti calcio gs camp carcinoma midollare">
+<tr class="data-row" data-sistema="calcio" data-asse="calcioasse" data-search="calcitonina cellule c tiroide osteoclasti calcio gs camp carcinoma midollare fosfato po4">
   <td><span class="cell-ormone">CALCITONINA</span><span class="cell-sigla">CT — peptide 32 aa; da procalcitonina</span></td>
   <td>Cellule <b>C (parafollicolari)</b> della tiroide (origini dalla cresta neurale, intercalate tra follicoli tiroidei). Non correlate alle cellule follicolari (che producono T3/T4)</td>
   <td>Controbilanciare acutamente l'ipercalcemia; effetto ipocalcemizzante rapido ma transitorio (soprattutto in gravidanza/allattamento e giovani)</td>
   <td><b>↑Ca²⁺ plasmatico</b> (sensore: CaSR sulle cellule C → attiva → ↑calcitonina). Stimolata anche da gastrina, GIP, β-agonisti. Inibita da: ↓Ca²⁺, somatostatina</td>
-  <td><span class="tag tag-gs">GPCR-Gs</span> CT-R su osteoclasti (principale bersaglio) → ↑cAMP → PKA → retrazione degli osteoclasti, ↓riassorbimento osseo, ↓motilità osteoclastica. Rene: ↑escrezione Ca²⁺ e fosfato (tubulo)</td>
-  <td>↓Attività osteoclastica (↓riassorbimento osseo → ↓Ca²⁺ dal midollo). ↑Escrezione renale Ca²⁺ e fosfato. Effetto ipocalcemizzante acuto (meno potente di PTH/calcitriolo)</td>
-  <td><b>Stimola:</b> escrezione renale Ca²⁺<br><b>Inibisce:</b> osteoclasti (riassorbimento osseo), assorbimento GI<br><b>Clinica:</b> usata in terapia per ipercalcemia acuta, morbo di Paget; calcitonina sierica alta = marker carcinoma midollare tiroideo</td>
+  <td><span class="tag tag-gs">GPCR-Gs</span> CT-R su osteoclasti (principale bersaglio) → ↑cAMP → PKA → retrazione del citoscheletro osteoclastico, ↓ruffled border → ↓riassorbimento osseo → ↓rilascio Ca²⁺ e PO₄³⁻<br><b>Rene:</b> ↑escrezione Ca²⁺ (↓TRPV5?) e ↑fosfaturia (↓NaPi-IIa/IIc, simile a PTH) — effetto più debole di PTH</td>
+  <td><b>Ca²⁺:</b> ↓Ca²⁺ plasmatico (↓osteoclasti + ↑fosfaturia renale Ca²⁺)<br><b>PO₄³⁻:</b> ↑escrezione renale PO₄³⁻ (↓NaPi-IIa) + ↓rilascio osseo PO₄³⁻ (↓osteoclasti) → ↓PO₄³⁻ plasma<br>Effetto ipocalcemizzante e ipofosfatemizzante acuto ma transitorio (downregulation CT-R rapida)</td>
+  <td><b>Ca²⁺ — Inibisce:</b> osteoclasti (↓RANKL-mediata), ↑escrezione renale Ca²⁺<br><b>PO₄³⁻ — Inibisce:</b> riassorbimento osseo PO₄³⁻, ↑fosfaturia renale (↓NaPi)<br><b>Marker clinico:</b> calcitonina sierica ≥100 pg/mL = CMT (carcinoma midollare tiroideo); usata come farmaco per ipercalcemia acuta, morbo di Paget, osteoporosi (effetto analgesico midollo)</td>
   <td class="note-cell"><b>Paradosso clinico:</b> la calcitonina è importante in laboratorio (marker CMT) molto più che nella fisiologia adulta — tiroidectomia totale non causa ipercalcemia significativa nell'adulto. Gli osteoclasti hanno CT-R e si "ritraggono" cAMP-dipendente in modo simile a come le cellule surrenali producono cortisolo: Gs → cAMP → PKA → effetto specifico di cellula.</td>
+</tr>
+
+
+<tr class="data-row" data-sistema="calcio" data-asse="calcioasse" data-search="fgf23 fgf-23 fibroblast growth factor fosfatonina fosfato po4 klotho cyp27b1 osteociti iperfosfatemia">
+  <td><span class="cell-ormone">FGF-23</span><span class="cell-sigla">Fibroblast Growth Factor 23 — "Fosfatonina"</span></td>
+  <td><b>Osteociti e osteoblasti</b> (matrice ossea). Peptide 251 aa; richiede co-recettore Klotho (proteina transmembrana, espressa in rene e paratiroide) per segnalare</td>
+  <td>Ormone osseo che informa il rene dello stato del fosfato: quando PO₄³⁻ è alto, l'osso lo comunica al rene per eliminarlo e frena la produzione di calcitriolo (evita eccesso di Ca²⁺ + PO₄³⁻ = calcificazioni)</td>
+  <td>↑PO₄³⁻ plasmatico (principale), ↑calcitriolo (feedback), ↑PTH (indiretto), dieta ricca in fosforo. Inibito da: ↓PO₄³⁻, FGF-receptor senza Klotho (tessuti senza Klotho non rispondono → specificità renale)</td>
+  <td><span class="tag tag-rtk">RTK-like (FGFR1/3/4 + Klotho)</span> FGF-23 lega FGFR solo in presenza di α-Klotho (co-recettore obbligatorio) → ERK1/2 / MAPK → effetti genomici:<br><b>Rene (tubulo prossimale):</b> ↓NaPi-IIa/IIc (↑fosfaturia), ↓CYP27B1 (↓produzione calcitriolo), ↑CYP24A1 (↑degradazione calcitriolo)<br><b>Paratiroidi:</b> ↓PTH secrezione (loop di feedback)</td>
+  <td><b>PO₄³⁻:</b> ↑fosfaturia renale (↓NaPi-IIa/IIc) → ↓PO₄³⁻ plasma<br><b>Calcitriolo:</b> ↓sintesi (↓CYP27B1) + ↑degradazione (↑CYP24A1) → ↓calcitriolo → ↓assorbimento intestinale Ca²⁺ e PO₄³⁻<br><b>PTH:</b> ↓secrezione PTH (feedback diretto sulle paratiroidi)<br>Effetto netto: ↓PO₄³⁻ plasma, ↓Ca²⁺ plasma (via ↓calcitriolo)</td>
+  <td><b>Stimola:</b> fosfaturia (↓NaPi), ↑CYP24A1 (degrada calcitriolo)<br><b>Inibisce:</b> CYP27B1 (↓calcitriolo), NaPi-IIa/IIc, PTH<br><b>↑FGF-23 patologico:</b> ipofosfatemia (X-linked hypophosphatemia, oncogenic osteomalacia). ↓FGF-23 (Klotho KO): invecchiamento precoce, calcificazioni vascolari, iperfosfatemia</td>
+  <td class="note-cell"><b>FGF-23 chiude il loop Ca²⁺/PO₄³⁻:</b> PTH ↑Ca²⁺ + ↑calcitriolo → calcitriolo ↑assorbimento PO₄³⁻ → PO₄³⁻ alto stimola FGF-23 da osteociti → FGF-23 ↓calcitriolo e ↑fosfaturia → PO₄³⁻ scende. È l'asse osso-rene: l'osso sente il fosfato e lo comunica al rene. Klotho è indispensabile: topi KO per Klotho invecchiano precocemente e calcificano — l'asse FGF-23/Klotho è un regolatore dell'aging.</td>
 </tr>
 
 </tbody>
@@ -1083,55 +1136,52 @@ window.addEventListener('load',()=>setTimeout(drawArrows,120));
 window.addEventListener('resize',drawArrows);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') closePanel(); });
 
-function filterOrmoni(sistema, btn) {
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
-  const rows = document.querySelectorAll('#tabella-ormoni tr.data-row');
-  const sistemaRows = document.querySelectorAll('#tabella-ormoni tr.sistema-row');
-  let visIdx = 0;
-  rows.forEach(tr => {
-    const match = sistema === 'all' || tr.dataset.sistema === sistema;
-    tr.classList.toggle('row-hidden', !match);
-    if (match) {
-      tr.style.animationDelay = (visIdx * 28) + 'ms';
-      visIdx++;
-    } else {
-      tr.style.animationDelay = '';
-    }
-  });
-  sistemaRows.forEach(tr => {
-    const sis = tr.dataset.sistema;
-    tr.classList.toggle('row-hidden', sistema !== 'all' && sis !== sistema);
-  });
-  // clear search input
-  const inp = document.querySelector('.search-ormoni');
-  if (inp) inp.value = '';
-}
+const _ormoniState = {sistema: 'all', asse: 'all', query: ''};
 
-function searchOrmoni(query) {
-  const q = query.toLowerCase().trim();
+function _applyOrmoniFilters() {
+  const {sistema, asse, query} = _ormoniState;
   const rows = document.querySelectorAll('#tabella-ormoni tr.data-row');
   const sistemaRows = document.querySelectorAll('#tabella-ormoni tr.sistema-row');
-  // reset filter btns
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
-  if (allBtn && !q) allBtn.classList.add('active');
   const visibleSistemi = new Set();
   let visIdx = 0;
   rows.forEach(tr => {
+    const matchSistema = sistema === 'all' || tr.dataset.sistema === sistema;
+    const asseList = (tr.dataset.asse || '').split(' ');
+    const matchAsse = asse === 'all' || asseList.includes(asse);
     const searchable = (tr.dataset.search || '') + ' ' + (tr.textContent || '');
-    const match = !q || searchable.toLowerCase().includes(q);
-    tr.classList.toggle('row-hidden', !match);
-    if (match) {
-      tr.style.animationDelay = (visIdx * 20) + 'ms';
+    const matchQuery = !query || searchable.toLowerCase().includes(query);
+    const visible = matchSistema && matchAsse && matchQuery;
+    tr.classList.toggle('row-hidden', !visible);
+    if (visible) {
+      tr.style.animationDelay = (visIdx * 22) + 'ms';
       visIdx++;
       visibleSistemi.add(tr.dataset.sistema);
     }
   });
   sistemaRows.forEach(tr => {
-    tr.classList.toggle('row-hidden', q ? !visibleSistemi.has(tr.dataset.sistema) : false);
+    const sis = tr.dataset.sistema;
+    const show = sistema === 'all' ? visibleSistemi.has(sis) : sis === sistema;
+    tr.classList.toggle('row-hidden', !show || !visibleSistemi.has(sis));
   });
-  if (!q && allBtn) allBtn.classList.add('active');
+}
+
+function filterOrmoni(sistema, btn) {
+  _ormoniState.sistema = sistema;
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  _applyOrmoniFilters();
+}
+
+function filterAsse(asse, btn) {
+  _ormoniState.asse = asse;
+  document.querySelectorAll('.filter-btn[data-asse]').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  _applyOrmoniFilters();
+}
+
+function searchOrmoni(query) {
+  _ormoniState.query = query.toLowerCase().trim();
+  _applyOrmoniFilters();
 }
 </script>
 </body>
