@@ -81,6 +81,30 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 .prereq-meta .unlock{color:#27ae60;}
 .prereq-meta .focus{color:#2980b9;}
 
+/* ── Formule ── */
+.formule-wrap{padding:20px 24px 32px;max-width:1100px;margin:0 auto;}
+.formule-wrap h2{font-size:18px;color:#1a252f;margin-bottom:4px;}
+.formule-wrap .desc{font-size:12.5px;color:#7f8c8d;margin-bottom:22px;line-height:1.6;}
+.formule-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px;}
+.formula-card{background:#fff;border-radius:10px;box-shadow:0 1px 6px rgba(0,0,0,.08);border-top:4px solid #e0e0e0;padding:16px 18px 14px;display:flex;flex-direction:column;gap:10px;}
+.formula-card.membrana{border-top-color:#2980b9;}
+.formula-card.omeostasi{border-top-color:#16a085;}
+.formula-card.sangue{border-top-color:#c0392b;}
+.formula-card.cardio{border-top-color:#e74c3c;}
+.formula-card.respiro{border-top-color:#8e44ad;}
+.formula-card.renale{border-top-color:#d35400;}
+.fc-category{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:#aab7b8;}
+.fc-name{font-size:13.5px;font-weight:700;color:#1a252f;line-height:1.3;}
+.fc-formula{background:#f8fafc;border-radius:6px;padding:10px 13px;font-family:'SFMono-Regular',Consolas,monospace;font-size:13.5px;color:#1a252f;border:1px solid #e8ecef;line-height:1.6;word-break:break-word;}
+.fc-formula .eq-main{font-size:15px;font-weight:700;color:#1a5276;display:block;margin-bottom:4px;}
+.fc-vars{font-size:11px;color:#5d6d7e;line-height:1.7;}
+.fc-vars span{display:block;}
+.fc-vars b{color:#2c3e50;}
+.fc-normal{display:inline-block;margin-top:6px;background:#eaf4fb;border-radius:14px;padding:2px 9px;font-size:11px;font-weight:600;color:#1a5276;}
+.fc-clinical{font-size:11px;color:#7f8c8d;border-left:3px solid #f0f2f5;padding-left:9px;line-height:1.55;font-style:italic;}
+.fc-clinical b{color:#c0392b;font-style:normal;}
+.formule-section-title{grid-column:1/-1;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#aab7b8;padding:4px 0 2px;border-bottom:1px solid #e8ecef;margin-top:4px;}
+
 /* ── Vie Ormonali ── */
 .ormoni-wrap{padding:14px 20px 20px;max-width:1440px;margin:0 auto;}
 .ormoni-wrap h2{margin-bottom:3px;font-size:17px;color:#1a252f;display:inline;}
@@ -163,6 +187,7 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
   <button class="tab-btn" onclick="showTab('sistemica',this)">❤️ Sistemica Integrata</button>
   <button class="tab-btn" onclick="showTab('prereq',this)">📚 Ordine di Studio</button>
   <button class="tab-btn" onclick="showTab('ormoni',this)">🔬 Vie Ormonali</button>
+  <button class="tab-btn" onclick="showTab('formule',this)">📐 Formule</button>
 </div>
 
 <div class="panel-overlay" id="overlay" onclick="closePanel()"></div>
@@ -978,6 +1003,346 @@ svg.arrows{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:
 </table>
 </div>
 <p style="font-size:11px;color:#aab7b8;margin-top:14px;text-align:center">Legenda tag: <span class="tag tag-gs">GPCR-Gs</span> ↑cAMP&nbsp;·&nbsp;<span class="tag tag-gi">GPCR-Gi</span> ↓cAMP&nbsp;·&nbsp;<span class="tag tag-gq">GPCR-Gq</span> ↑IP₃/Ca²⁺&nbsp;·&nbsp;<span class="tag tag-nuc">Nucleare</span> genomico lento&nbsp;·&nbsp;<span class="tag tag-rtk">RTK</span> tirosin-chinasi&nbsp;·&nbsp;<span class="tag tag-jak">JAK-STAT</span> citochina-like&nbsp;·&nbsp;<span class="tag tag-ion">Canale</span> ionotropico</p>
+</div>
+</div>
+
+<div id="tab-formule" class="tab-content">
+<div class="formule-wrap">
+<h2>Formule da Ricordare</h2>
+<p class="desc">Tutte le equazioni quantitative del corso, organizzate per sistema. Ogni formula include le variabili, il valore fisiologico normale e la rilevanza clinica immediata.</p>
+<div class="formule-grid">
+
+  <div class="formule-section-title">⚡ Membrana &amp; Elettrofisiologia</div>
+
+  <div class="formula-card membrana">
+    <div class="fc-category">Membrana — Nernst</div>
+    <div class="fc-name">Potenziale di Equilibrio Ionico</div>
+    <div class="fc-formula">
+      <span class="eq-main">E = (RT / zF) · ln([X]<sub>out</sub> / [X]<sub>in</sub>)</span>
+      A 37 °C: E = (61.5 / z) · log([X]<sub>out</sub> / [X]<sub>in</sub>)
+    </div>
+    <div class="fc-vars">
+      <span><b>R</b> = costante dei gas (8.314 J/mol·K)</span>
+      <span><b>T</b> = temperatura assoluta (K)</span>
+      <span><b>z</b> = valenza ionica (con segno)</span>
+      <span><b>F</b> = costante di Faraday (96 485 C/mol)</span>
+      <span style="margin-top:4px;display:block"><b>Valori tipici:</b> E<sub>K⁺</sub> = −94 mV · E<sub>Na⁺</sub> = +67 mV · E<sub>Ca²⁺</sub> = +123 mV · E<sub>Cl⁻</sub> = −90 mV</span>
+    </div>
+    <div class="fc-clinical">Determina la forza di guida per ogni ione. Il V<sub>m</sub> reale (−70 mV) è tra E<sub>K⁺</sub> e E<sub>Na⁺</sub> perché la membrana è permeabile a entrambi.</div>
+  </div>
+
+  <div class="formula-card membrana">
+    <div class="fc-category">Membrana — Goldman-Hodgkin-Katz</div>
+    <div class="fc-name">Potenziale di Membrana a Riposo (GHK)</div>
+    <div class="fc-formula">
+      <span class="eq-main">V<sub>m</sub> = (RT/F) · ln[(P<sub>K</sub>[K]<sub>o</sub> + P<sub>Na</sub>[Na]<sub>o</sub> + P<sub>Cl</sub>[Cl]<sub>i</sub>) / (P<sub>K</sub>[K]<sub>i</sub> + P<sub>Na</sub>[Na]<sub>i</sub> + P<sub>Cl</sub>[Cl]<sub>o</sub>)]</span>
+      Rapporti permeabilità a riposo: P<sub>K</sub> : P<sub>Na</sub> : P<sub>Cl</sub> = 1 : 0.04 : 0.45
+    </div>
+    <div class="fc-vars">
+      <span>Il Cl⁻ è invertito (numeratore = intracellulare) perché z = −1</span>
+      <span>Durante il PA: P<sub>Na</sub> ↑↑ → V<sub>m</sub> si sposta verso E<sub>Na⁺</sub> (+67 mV)</span>
+    </div>
+    <span class="fc-normal">V<sub>m</sub> riposo neuroni ≈ −70 mV</span>
+    <div class="fc-clinical">Spiega perché a riposo K⁺ domina (P<sub>K</sub> >> P<sub>Na</sub>). Modifica le permeabilità relative → calcola V<sub>m</sub> in condizioni diverse.</div>
+  </div>
+
+  <div class="formula-card membrana">
+    <div class="fc-category">Membrana — Hodgkin-Huxley</div>
+    <div class="fc-name">Equazione di Membrana Completa</div>
+    <div class="fc-formula">
+      <span class="eq-main">I<sub>m</sub> = C<sub>m</sub>·dV/dt + g<sub>Na</sub>·(V<sub>m</sub>−E<sub>Na</sub>) + g<sub>K</sub>·(V<sub>m</sub>−E<sub>K</sub>) + g<sub>L</sub>·(V<sub>m</sub>−E<sub>L</sub>)</span>
+      Singolo canale: I<sub>i</sub> = g<sub>i</sub> · (V<sub>m</sub> − E<sub>i</sub>)
+    </div>
+    <div class="fc-vars">
+      <span><b>C<sub>m</sub></b> = capacità di membrana</span>
+      <span><b>g<sub>i</sub></b> = conduttanza del canale i (Siemens)</span>
+      <span><b>E<sub>i</sub></b> = potenziale di Nernst per lo ione i</span>
+      <span><b>g<sub>L</sub></b> = conduttanza di leak (canali non voltaggio-dipendenti)</span>
+    </div>
+    <div class="fc-clinical"><b>La forza di guida</b> per Na⁺ si riduce man mano che V<sub>m</sub> → +67 mV durante il picco del PA.</div>
+  </div>
+
+  <div class="formula-card membrana">
+    <div class="fc-category">Membrana — Fick</div>
+    <div class="fc-name">Legge di Fick (Diffusione)</div>
+    <div class="fc-formula">
+      <span class="eq-main">J = P · A · (C<sub>1</sub> − C<sub>2</sub>)</span>
+      Con P = (D · K) / x
+    </div>
+    <div class="fc-vars">
+      <span><b>J</b> = flusso netto (mol/s)</span>
+      <span><b>P</b> = permeabilità (dipende da liposolubilità, dimensione, carica)</span>
+      <span><b>A</b> = area di membrana</span>
+      <span><b>D</b> = coefficiente di diffusione · <b>K</b> = coefficiente di partizione</span>
+      <span><b>x</b> = spessore membrana</span>
+    </div>
+    <div class="fc-clinical">Polmone: A ≈ 100 m², x ≈ 0.5 µm → ottimizzato per scambio rapido O₂/CO₂. <b>CO₂ diffonde 20× più veloce di O₂</b> a parità di gradiente.</div>
+  </div>
+
+  <div class="formule-section-title">💧 Omeostasi &amp; Compartimenti</div>
+
+  <div class="formula-card omeostasi">
+    <div class="fc-category">Omeostasi — Van't Hoff</div>
+    <div class="fc-name">Pressione Osmotica</div>
+    <div class="fc-formula">
+      <span class="eq-main">π = i · C · R · T</span>
+    </div>
+    <div class="fc-vars">
+      <span><b>i</b> = coefficiente di dissociazione (NaCl → i ≈ 2)</span>
+      <span><b>C</b> = concentrazione molare (mol/L)</span>
+      <span><b>R</b> = 0.082 L·atm/mol·K · <b>T</b> = temperatura (K)</span>
+    </div>
+    <div class="fc-clinical"><b>Albumina</b> genera pressione oncotica ≈ 25 mmHg. Ipoalbuminemia → ↓pressione oncotica → edema (meccanismo di Starling).</div>
+  </div>
+
+  <div class="formula-card omeostasi">
+    <div class="fc-category">Omeostasi — Clinica</div>
+    <div class="fc-name">Osmolalità Plasmatica (formula clinica)</div>
+    <div class="fc-formula">
+      <span class="eq-main">Osm ≈ 2[Na⁺] + [glucosio]/18 + [BUN]/2.8</span>
+    </div>
+    <div class="fc-vars">
+      <span><b>[Na⁺]</b> in mEq/L · <b>[glucosio]</b> e <b>[BUN]</b> in mg/dL</span>
+      <span>Il fattore /18 converte glucosio da mg/dL a mmol/L (PM glucosio = 180)</span>
+      <span>Il fattore /2.8 converte BUN da mg/dL a mmol/L (PM azoto = 28)</span>
+    </div>
+    <span class="fc-normal">285–295 mOsm/kg H₂O</span>
+    <div class="fc-clinical"><b>Il Na⁺ domina</b> → l'iponatremia è la causa più comune di ipoosmolalità. Un gap osmolare elevato suggerisce tossici (metanolo, etanolo).</div>
+  </div>
+
+  <div class="formule-section-title">🩸 Sangue</div>
+
+  <div class="formula-card sangue">
+    <div class="fc-category">Sangue</div>
+    <div class="fc-name">Ematocrito</div>
+    <div class="fc-formula">
+      <span class="eq-main">Hct% = (V eritrociti / V totale sangue) × 100</span>
+    </div>
+    <div class="fc-vars">
+      <span>Maschio: 42–52% · Femmina: 37–47%</span>
+    </div>
+    <div class="fc-clinical"><b>Hct ↓</b> = anemia. <b>Hct ↑</b> = policitemia (es. JAK2 V617F). Usato anche per calcolare FER dai valori di FPR.</div>
+  </div>
+
+  <div class="formula-card sangue">
+    <div class="fc-category">Sangue — Emoglobina</div>
+    <div class="fc-name">P₅₀ dell'Emoglobina</div>
+    <div class="fc-formula">
+      <span class="eq-main">P₅₀ = 27 mmHg</span>
+      PO₂ a cui il 50% dell'Hb è saturata (condizioni normali)
+    </div>
+    <div class="fc-vars">
+      <span><b>↑P₅₀</b> (curva a dx): ↓affinità O₂ → favorisce cessione ai tessuti</span>
+      <span>Cause ↑P₅₀: ↑T, ↑CO₂, ↑H⁺ (effetto Bohr), ↑2,3-DPG</span>
+      <span><b>↓P₅₀</b> (curva a sx): ↑affinità → O₂ trattienuto (HbF, CO, MetHb)</span>
+    </div>
+    <div class="fc-clinical">Alta quota → ↑2,3-DPG → ↑P₅₀ → adattamento cedendo più O₂ ai tessuti nonostante PO₂ bassa.</div>
+  </div>
+
+  <div class="formule-section-title">❤️ Cardiovascolare</div>
+
+  <div class="formula-card cardio">
+    <div class="fc-category">Cardiovascolare</div>
+    <div class="fc-name">Gittata Cardiaca</div>
+    <div class="fc-formula">
+      <span class="eq-main">CO = FC × GS</span>
+    </div>
+    <div class="fc-vars">
+      <span><b>FC</b> = frequenza cardiaca (bpm)</span>
+      <span><b>GS</b> = gittata sistolica / stroke volume (mL/battito)</span>
+      <span>Riposo: 72 bpm × 70 mL = ~5 L/min</span>
+      <span>Esercizio intenso (allenato): fino a 20–25 L/min</span>
+    </div>
+    <span class="fc-normal">~5 L/min a riposo</span>
+    <div class="fc-clinical"><b>Shock</b> = CO inadeguata. Si può ↑CO aumentando FC (simpatico) o GS (precarico/contrattilità). Tachycardia estrema riduce il riempimento → ↓GS.</div>
+  </div>
+
+  <div class="formula-card cardio">
+    <div class="fc-category">Cardiovascolare</div>
+    <div class="fc-name">Frazione di Eiezione</div>
+    <div class="fc-formula">
+      <span class="eq-main">FE = (GS / EDV) × 100</span>
+      con GS = EDV − ESV
+    </div>
+    <div class="fc-vars">
+      <span><b>EDV</b> = volume telediastolico (~120–130 mL)</span>
+      <span><b>ESV</b> = volume telesistolico (~50–60 mL)</span>
+      <span><b>GS</b> ≈ 70 mL</span>
+    </div>
+    <span class="fc-normal">FE > 55%</span>
+    <div class="fc-clinical"><b>FE &lt; 40%</b> = scompenso sistolico. FE preservata con disfunzione diastolica = HFpEF. Indice ecocardiografico più usato.</div>
+  </div>
+
+  <div class="formula-card cardio">
+    <div class="fc-category">Cardiovascolare — Legge di Ohm</div>
+    <div class="fc-name">Flusso–Resistenza</div>
+    <div class="fc-formula">
+      <span class="eq-main">F = ΔP / R</span>
+    </div>
+    <div class="fc-vars">
+      <span><b>F</b> = flusso (L/min)</span>
+      <span><b>ΔP</b> = gradiente pressorio (mmHg)</span>
+      <span><b>R</b> = resistenza (dipende da raggio, lunghezza, viscosità — Poiseuille)</span>
+      <span>Le arteriole sono il principale sito di resistenza (controllano distribuzione del flusso)</span>
+    </div>
+    <div class="fc-clinical">Poiseuille: R ∝ L·η/r⁴ → il raggio domina (piccola ↓r → grande ↑R). Base dell'ipertensione arteriosa sistemica (↑R arteriolare).</div>
+  </div>
+
+  <div class="formula-card cardio">
+    <div class="fc-category">Cardiovascolare — ECG</div>
+    <div class="fc-name">Calcolo Frequenza Cardiaca da ECG</div>
+    <div class="fc-formula">
+      <span class="eq-main">FC = 1500 / quadratini R-R</span>
+      oppure: FC = 60 / intervallo R-R (s)
+    </div>
+    <div class="fc-vars">
+      <span>A 25 mm/s: 1 quadratino piccolo = 0.04 s</span>
+      <span>Esempio: R-R = 20 quadratini → FC = 1500/20 = 75 bpm</span>
+    </div>
+    <span class="fc-normal">60–100 bpm</span>
+    <div class="fc-clinical">Utile per calcolo rapido su ECG cartaceo. Per ritmi irregolari (FA): media su 6 secondi di tracciato × 10.</div>
+  </div>
+
+  <div class="formula-card cardio">
+    <div class="fc-category">Cardiovascolare — Laplace</div>
+    <div class="fc-name">Stress di Parete Ventricolare</div>
+    <div class="fc-formula">
+      <span class="eq-main">σ = P · r / (2h)</span>
+    </div>
+    <div class="fc-vars">
+      <span><b>σ</b> = stress di parete (afterload sul sarcomero)</span>
+      <span><b>P</b> = pressione intracavitaria · <b>r</b> = raggio · <b>h</b> = spessore parete</span>
+    </div>
+    <div class="fc-clinical"><b>Ipertensione cronica</b> → ↑r + ↑P → ↑σ → ipertrofia concentrica (↑h) per normalizzare σ. Spiega il rimodellamento cardiaco.</div>
+  </div>
+
+  <div class="formule-section-title">🫁 Respiratorio</div>
+
+  <div class="formula-card respiro">
+    <div class="fc-category">Respiratorio — Boyle</div>
+    <div class="fc-name">Legge di Boyle (Meccanica Respiratoria)</div>
+    <div class="fc-formula">
+      <span class="eq-main">P₁V₁ = P₂V₂ (a T costante)</span>
+    </div>
+    <div class="fc-vars">
+      <span>↑VolPolmonare → ↓P<sub>alv</sub> sotto P<sub>atm</sub> → aria entra (inspirazione)</span>
+      <span>↓VolPolmonare → ↑P<sub>alv</sub> sopra P<sub>atm</sub> → aria esce (espirazione)</span>
+    </div>
+    <div class="fc-clinical">P<sub>atm</sub> = 760 mmHg · P<sub>alv</sub> riposo = 760 mmHg · P<sub>ip</sub> = −4 mmHg. P<sub>ip</sub> diventa −8 mmHg durante inspirazione tranquilla.</div>
+  </div>
+
+  <div class="formula-card respiro">
+    <div class="fc-category">Respiratorio — Laplace</div>
+    <div class="fc-name">Stabilità Alveolare (Laplace)</div>
+    <div class="fc-formula">
+      <span class="eq-main">P = 2T / r</span>
+    </div>
+    <div class="fc-vars">
+      <span><b>P</b> = pressione di chiusura dell'alveolo</span>
+      <span><b>T</b> = tensione superficiale</span>
+      <span><b>r</b> = raggio alveolare</span>
+      <span>Senza surfactante: alveoli piccoli (↓r) avrebbero P altissima → collasso</span>
+    </div>
+    <div class="fc-clinical"><b>Surfactante</b> (DPPC, dai pneumociti II): ↓T in proporzione al ↓r → P rimane stabile. Carenza → RDS neonatale (prematurità).</div>
+  </div>
+
+  <div class="formula-card respiro">
+    <div class="fc-category">Respiratorio — Compliance</div>
+    <div class="fc-name">Compliance Polmonare</div>
+    <div class="fc-formula">
+      <span class="eq-main">C<sub>L</sub> = ΔV / ΔP<sub>transpolmonare</sub></span>
+      con P<sub>transpolmonare</sub> = P<sub>alv</sub> − P<sub>ip</sub>
+    </div>
+    <div class="fc-vars">
+      <span><b>↑C<sub>L</sub></b> = polmone più distensibile (enfisema: distruzione setti)</span>
+      <span><b>↓C<sub>L</sub></b> = polmone rigido (fibrosi, edema, RDS)</span>
+    </div>
+    <div class="fc-clinical">Fibrosi polmonare: ↓C<sub>L</sub> → respiro frequente e superficiale per ridurre il lavoro (pattern restrittivo).</div>
+  </div>
+
+  <div class="formula-card respiro">
+    <div class="fc-category">Respiratorio — Volumi</div>
+    <div class="fc-name">Ventilazione Alveolare</div>
+    <div class="fc-formula">
+      <span class="eq-main">V̇<sub>A</sub> = (V<sub>T</sub> − V<sub>morto</sub>) × f<sub>R</sub></span>
+      = (500 − 150) × 12 ≈ 4200 ml/min
+    </div>
+    <div class="fc-vars">
+      <span><b>V<sub>T</sub></b> = volume corrente (~500 mL)</span>
+      <span><b>V<sub>morto</sub></b> = spazio morto anatomico (~150 mL)</span>
+      <span><b>f<sub>R</sub></b> = frequenza respiratoria (~12/min)</span>
+    </div>
+    <span class="fc-normal">~4200 ml/min</span>
+    <div class="fc-clinical">Respirazione rapida e superficiale ↑f<sub>R</sub> ma ↓V<sub>T</sub> → V<sub>morto</sub> proporzionalmente maggiore → <b>↓V̇<sub>A</sub></b> → ipercapnia.</div>
+  </div>
+
+  <div class="formula-card respiro">
+    <div class="fc-category">Respiratorio</div>
+    <div class="fc-name">Quoziente Respiratorio</div>
+    <div class="fc-formula">
+      <span class="eq-main">R = VCO₂ / VO₂</span>
+    </div>
+    <div class="fc-vars">
+      <span>Dieta mista: R ≈ 0.8 (gluc = 1.0 · grassi = 0.7 · prot = 0.8)</span>
+    </div>
+    <div class="fc-clinical">Un QR > 1 indica liponeogenesi (glucosio in eccesso → grassi + CO₂ prodotta > O₂ consumata). Rilevante in nutrizione artificiale.</div>
+  </div>
+
+  <div class="formule-section-title">🫘 Renale</div>
+
+  <div class="formula-card renale">
+    <div class="fc-category">Renale — VFG</div>
+    <div class="fc-name">Velocità di Filtrazione Glomerulare</div>
+    <div class="fc-formula">
+      <span class="eq-main">VFG = P<sub>F</sub> × K<sub>F</sub></span>
+      P<sub>F</sub> = PICG − (POCG + PICB) = 55 − (30 + 15) = 10 mmHg
+    </div>
+    <div class="fc-vars">
+      <span><b>P<sub>F</sub></b> = pressione netta di filtrazione (mmHg)</span>
+      <span><b>K<sub>F</sub></b> = coefficiente di filtrazione (area × permeabilità)</span>
+      <span><b>PICG</b> = P. idrostatica capillare glomerulare = 55 mmHg</span>
+      <span><b>POCG</b> = P. oncotica capillare glomerulare = 30 mmHg</span>
+      <span><b>PICB</b> = P. idrostatica capsula di Bowman = 15 mmHg</span>
+    </div>
+    <span class="fc-normal">125 ml/min → 180 L/die; 99% riassorbito → 1.5 L urine/die</span>
+    <div class="fc-clinical"><b>VFG &lt; 60 ml/min</b> per > 3 mesi = CKD. Sindrome nefrosica: ↓POCG → ↑P<sub>F</sub> → ↑VFG inizialmente; poi compenso.</div>
+  </div>
+
+  <div class="formula-card renale">
+    <div class="fc-category">Renale — Clearance</div>
+    <div class="fc-name">Clearance Renale</div>
+    <div class="fc-formula">
+      <span class="eq-main">C<sub>s</sub> = (U<sub>s</sub> × V̇<sub>u</sub>) / P<sub>s</sub></span>
+    </div>
+    <div class="fc-vars">
+      <span><b>U<sub>s</sub></b> = concentrazione urinaria della sostanza s</span>
+      <span><b>V̇<sub>u</sub></b> = flusso urinario (ml/min)</span>
+      <span><b>P<sub>s</sub></b> = concentrazione plasmatica della sostanza s</span>
+    </div>
+    <div class="fc-vars" style="margin-top:6px">
+      <span><b>Inulina:</b> C = 125 ml/min = VFG (gold standard; filtrata, né riassorbita né secreta)</span>
+      <span><b>Creatinina:</b> C ≈ 125 ml/min (lieve sovrastima per minima secrezione tubulare)</span>
+      <span><b>PAI:</b> C = 660 ml/min = FPR (filtrata + secreta completamente)</span>
+    </div>
+    <div class="fc-clinical">Creatinina plasmatica da 1 → 2 mg/dL ≈ dimezzamento VFG (relazione iperbolica). Regola pratica fondamentale.</div>
+  </div>
+
+  <div class="formula-card renale">
+    <div class="fc-category">Renale — Flusso Ematico</div>
+    <div class="fc-name">Flusso Ematico Renale (FER)</div>
+    <div class="fc-formula">
+      <span class="eq-main">FER = FPR / (1 − Ht)</span>
+      = 660 / (1 − 0.45) ≈ 1200 ml/min
+    </div>
+    <div class="fc-vars">
+      <span><b>FPR</b> = flusso plasmatico renale = 660 ml/min (da clearance PAI)</span>
+      <span><b>Ht</b> = ematocrito (≈ 0.45)</span>
+      <span>FER ≈ 20–25% della gittata cardiaca (CO ≈ 5 L/min)</span>
+    </div>
+    <div class="fc-clinical">Quota enorme rispetto alla massa renale (< 1% del peso corporeo) — riflette la funzione filtrante-regolatoria, non metabolica.</div>
+  </div>
+
+</div>
 </div>
 </div>
 
